@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerador de Orçamento</title>
+    <link rel="stylesheet" href="Styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <!--Título principal-->
+    <section class="main-title">
+      <h1>ORÇAMENTO</h1>
+      <h3 id="numeroOrcamento"></h3>
+    </section>
+
+    <div id="modoEdicao">
+      <h2>Gerador de Orçamento</h2>
+      <label>Nome do Cliente:</label>
+      <input type="text" id="cliente" />
+
+      <div id="produtos"></div>
+      <button onclick="adicionarProduto()">Adicionar Produto</button>
+
+      <label>Observações:</label>
+      <textarea id="observacoes"></textarea>
+
+      <button onclick="gerarLink()">Gerar Link para Cliente</button>
+
+      <div id="orcamentoArea" style="display: none">
+        <h2>Orçamento</h2>
+        <div id="orcamentoTexto"></div>
+
+        <h3>Assinatura do Cliente</h3>
+        <canvas id="assinatura" width="400" height="200"></canvas><br />
+        <button onclick="limparAssinatura()">Limpar Assinatura</button>
+        <button onclick="salvarOrcamento()">Salvar como Imagem</button>
+      </div>
+    </div>
+  </body>
+</html>
