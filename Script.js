@@ -60,33 +60,16 @@ function gerarOrdemFaturamento() {
   const entrada = document.getElementById("entrada").value;
   const boleto = document.getElementById("boleto").value;
 
-  let texto = 
-    <h2>Autorização de Faturamento</h2>
-    <p><strong>Cliente:</strong> ${cliente}</p>
-    <p><strong>CNPJ:</strong> ${cnpj}</p>
-    <p><strong>IE:</strong> ${ie}</p>
-    <p><strong>Endereço:</strong> ${endereco}</p>
-    <p><strong>Cidade (UF):</strong> ${cidade}</p>
-    <p><strong>CEP:</strong> ${cep}</p>
-    <p><strong>Contato:</strong> ${contato}</p>
-    <p><strong>Telefone:</strong> ${telefone}</p>
-    <p><strong>Entrada:</strong> ${entrada}</p>
-    <p><strong>Boleto:</strong> ${boleto}</p>
-    <p><strong>Produtos:</strong></p>
-  ;
-
   const produtos = document.querySelectorAll(".produto");
+  let listaProdutos = "";
+
   produtos.forEach((p, i) => {
     const nome = p.querySelector(".nome").value;
     const qtd = p.querySelector(".quantidade").value;
-    const valor = p.querySelector(".valor").value;
-    texto += <p>${i + 1}. ${nome} - ${qtd} un. x R$ ${valor}</p>;
+    const valor = parseFloat(p.querySelector(".valor").value || 0);
+    const subtotal = qtd * valor;
+    listaProdutos += ${i + 1}. ${nome} - ${qtd} un x R$ ${valor.toFixed(2)} = R$ ${subtotal.toFixed(2)}<br>;
   });
-
-  document.getElementById("documentoFinal").innerHTML = texto;
-  document.getElementById("modoEdicao").style.display = "none";
-  document.getElementById("documentoFinal").style.display = "block";
-
 
   const texto = 
     <h2>AUTORIZAÇÃO DE FATURAMENTO</h2>
@@ -139,4 +122,3 @@ function salvarAssinatura() {
 // Exemplo simples de salvar orçamento como imagem
 function salvarOrcamento() {
   window.print();
-}
