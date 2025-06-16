@@ -1,8 +1,8 @@
-// Função para adicionar novo produto
+// Adiciona dinamicamente um novo produto
 function adicionarProduto() {
   const div = document.createElement("div");
   div.classList.add("produto");
-  div.innerHTML = 
+  div.innerHTML = `
     <label>Produto:</label>
     <input type="text" class="nome" oninput="calcularTotal()" />
 
@@ -11,11 +11,11 @@ function adicionarProduto() {
 
     <label>Valor Unitário (R$):</label>
     <input type="number" step="0.01" class="valor" oninput="calcularTotal()" />
-  ;
+  `;
   document.getElementById("produtos").appendChild(div);
 }
 
-// Função para calcular o total e listar os produtos
+// Calcula o total e atualiza o resumo dos produtos
 function calcularTotal() {
   const produtos = document.querySelectorAll(".produto");
   let total = 0;
@@ -29,26 +29,25 @@ function calcularTotal() {
     if (nome && qtd > 0 && valor > 0) {
       const subtotal = qtd * valor;
       total += subtotal;
-
-      lista += ${i + 1}. ${nome} - ${qtd} un x R$ ${valor.toFixed(2)} = R$ ${subtotal.toFixed(2)}<br>;
+      lista += `${i + 1}. ${nome} - ${qtd} un x R$ ${valor.toFixed(2)} = R$ ${subtotal.toFixed(2)}<br>`;
     }
   });
 
-  document.getElementById("valorTotal").innerHTML = R$ ${total.toFixed(2)};
+  document.getElementById("valorTotal").innerHTML = `R$ ${total.toFixed(2)}`;
   document.getElementById("listaProdutos").innerHTML = lista;
 }
 
-// Adiciona listeners aos campos iniciais ao carregar a página
+// Aplica cálculo ao carregar a página
 window.onload = () => {
-  const primeiroProduto = document.querySelector(".produto");
-  const campos = primeiroProduto.querySelectorAll("input");
+  const campos = document.querySelectorAll(".produto input");
   campos.forEach(input => {
     input.addEventListener("input", calcularTotal);
   });
-  calcularTotal(); // força cálculo inicial (mesmo com campos em branco)
+  calcularTotal();
 };
 
-function gerarOrdemFaturamento() {
+// Função para gerar a ordem de faturamento
+function salvarOrcamento() {
   const cliente = document.getElementById("cliente").value;
   const cnpj = document.getElementById("cnpj").value;
   const ie = document.getElementById("ie").value;
@@ -62,55 +61,54 @@ function gerarOrdemFaturamento() {
 
   const produtos = document.querySelectorAll(".produto");
   let listaProdutos = "";
+  let total = 0;
 
   produtos.forEach((p, i) => {
-    const nome = p.querySelector(".nome").value;
-    const qtd = p.querySelector(".quantidade").value;
-    const valor = parseFloat(p.querySelector(".valor").value || 0);
-    const subtotal = qtd * valor;
-    listaProdutos += ${i + 1}. ${nome} - ${qtd} un x R$ ${valor.toFixed(2)} = R$ ${subtotal.toFixed(2)}<br>;
+    const nome = p.querySelector(".nome").value.trim();
+    const qtd = parseInt(p.querySelector(".quantidade").value) || 0;
+    const valor = parseFloat(p.querySelector(".valor").value) || 0;
+
+    if (nome && qtd > 0 && valor > 0) {
+      const subtotal = qtd * valor;
+      listaProdutos += `${i + 1}. ${nome} - ${qtd} un x R$ ${valor.toFixed(2)} = R$ ${subtotal.toFixed(2)}<br>`;
+      total += subtotal;
+    }
   });
 
-  const texto = 
+  const texto = `
     <h2>AUTORIZAÇÃO DE FATURAMENTO</h2>
-    <p>Autorizamos a empresa Bellenzier Pneus Ltda a faturar o valor referente à compra de:</p>
+    <p>Autorizamos a empresa <strong>Bellenzier Pneus Ltda</strong> a faturar o valor total de 
+    <strong>R$ ${total.toFixed(2)}</strong> referente à compra de:</p>
     ${listaProdutos}
 
     <h3>Forma de Pagamento</h3>
-    ENTRADA DE ${entrada}<br>
-    SALDO BOLETOS EM ${boleto}<br><br>
+    ENTRADA DE <strong>R$ ${entrada}</strong><br>
+    SALDO BOLETOS EM <strong>${boleto}</strong><br><br>
 
     <h3>Dados para Faturar</h3>
     Razão Social: ${cliente}<br>
     CNPJ: ${cnpj} &nbsp;&nbsp;&nbsp; IE: ${ie}<br>
     Endereço: ${endereco}<br>
     Cidade(UF): ${cidade} &nbsp;&nbsp;&nbsp; CEP: ${cep}<br>
-    Contato (nome): ${contato} &nbsp;&nbsp;&nbsp; Tel contato: ${telefone}<br><br>
+    Contato: ${contato} &nbsp;&nbsp;&nbsp; Tel: ${telefone}<br><br>
 
     Porto Alegre, ${new Date().toLocaleDateString("pt-BR")}<br><br>
     _______________________________________________<br>
     Nome e assinatura do responsável pela empresa que está autorizando.
-  ;
+  `;
 
-  // Cria ou substitui a área do orçamento
-  let area = document.getElementById("orcamentoTexto");
-  if (!area) {
-    area = document.createElement("div");
-    area.id = "orcamentoTexto";
-    document.body.appendChild(area);
-  }
-
+  const area = document.getElementById("orcamentoArea");
   area.innerHTML = texto;
 }
 
-// Função para limpar a assinatura (caso deseje)
+// LIMPAR ASSINATURA
 function limparAssinatura() {
   const canvas = document.getElementById("assinatura");
   const ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-// Função para salvar a assinatura como imagem
+// SALVAR ASSINATURA
 function salvarAssinatura() {
   const canvas = document.getElementById("assinatura");
   const link = document.createElement("a");
@@ -119,6 +117,28 @@ function salvarAssinatura() {
   link.click();
 }
 
-// Exemplo simples de salvar orçamento como imagem
-function salvarOrcamento() {
-  window.print();
+// OPÇÃO EXTRA: desenhar no canvas
+(function habilitarAssinatura() {
+  const canvas = document.getElementById("assinatura");
+  const ctx = canvas.getContext("2d");
+  let desenhando = false;
+
+  canvas.addEventListener("mousedown", () => desenhando = true);
+  canvas.addEventListener("mouseup", () => desenhando = false);
+  canvas.addEventListener("mouseout", () => desenhando = false);
+
+  canvas.addEventListener("mousemove", (e) => {
+    if (!desenhando) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    ctx.lineWidth = 2;
+    ctx.lineCap = "round";
+    ctx.strokeStyle = "#000";
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+  });
+})();
