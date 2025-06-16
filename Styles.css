@@ -25,6 +25,34 @@ p {
   font-size: 18px;
 }
 
+section.main-title {
+  margin-bottom: 20px;
+  background-color: #69AC93;
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#orcamentoArea {
+  padding: 20px;
+  background-color: #fefefe;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
 h3 {
   font-size: 18px;
   font-weight: bold;
