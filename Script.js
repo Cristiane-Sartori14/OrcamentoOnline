@@ -48,6 +48,61 @@ window.onload = () => {
   calcularTotal(); // força cálculo inicial (mesmo com campos em branco)
 };
 
+function gerarOrdemFaturamento() {
+  const cliente = document.getElementById("cliente").value;
+  const cnpj = document.getElementById("cnpj").value;
+  const ie = document.getElementById("ie").value;
+  const endereco = document.getElementById("endereco").value;
+  const cidade = document.getElementById("cidade").value;
+  const cep = document.getElementById("cep").value;
+  const contato = document.getElementById("contato").value;
+  const telefone = document.getElementById("telefone").value;
+  const entrada = document.getElementById("entrada").value;
+  const boleto = document.getElementById("boleto").value;
+
+  const produtos = document.querySelectorAll(".produto");
+  let listaProdutos = "";
+
+  produtos.forEach((p, i) => {
+    const nome = p.querySelector(".nome").value;
+    const qtd = p.querySelector(".quantidade").value;
+    const valor = parseFloat(p.querySelector(".valor").value || 0);
+    const subtotal = qtd * valor;
+    listaProdutos += `${i + 1}. ${nome} - ${qtd} un x R$ ${valor.toFixed(2)} = R$ ${subtotal.toFixed(2)}<br>`;
+  });
+
+  const texto = `
+    <h2>AUTORIZAÇÃO DE FATURAMENTO</h2>
+    <p>Autorizamos a empresa Bellenzier Pneus Ltda a faturar o valor referente à compra de:</p>
+    ${listaProdutos}
+
+    <h3>Forma de Pagamento</h3>
+    ENTRADA DE ${entrada}<br>
+    SALDO BOLETOS EM ${boleto}<br><br>
+
+    <h3>Dados para Faturar</h3>
+    Razão Social: ${cliente}<br>
+    CNPJ: ${cnpj} &nbsp;&nbsp;&nbsp; IE: ${ie}<br>
+    Endereço: ${endereco}<br>
+    Cidade(UF): ${cidade} &nbsp;&nbsp;&nbsp; CEP: ${cep}<br>
+    Contato (nome): ${contato} &nbsp;&nbsp;&nbsp; Tel contato: ${telefone}<br><br>
+
+    Porto Alegre, ${new Date().toLocaleDateString("pt-BR")}<br><br>
+    _______________________________________________<br>
+    Nome e assinatura do responsável pela empresa que está autorizando.
+  `;
+
+  // Cria ou substitui a área do orçamento
+  let area = document.getElementById("orcamentoTexto");
+  if (!area) {
+    area = document.createElement("div");
+    area.id = "orcamentoTexto";
+    document.body.appendChild(area);
+  }
+
+  area.innerHTML = texto;
+}
+
 // Função para limpar a assinatura (caso deseje)
 function limparAssinatura() {
   const canvas = document.getElementById("assinatura");

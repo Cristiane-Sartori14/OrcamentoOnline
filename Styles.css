@@ -103,14 +103,26 @@ button {
 }
 
 @media print {
-  button,
-  input,
-  canvas {
-    display: none;
+  body {
+    width: 21cm;
+    height: 29.7cm;
+    margin: 1.5cm;
+    font-size: 12px;
+    color: #000;
+    background: #fff;
   }
 
-  body {
-    margin: 0;
-    box-shadow: none;
+  button, #modoEdicao {
+    display: none; /* oculta botões e campos de edição na impressão */
+  }
+
+  #orcamentoTexto {
+    page-break-inside: avoid;
+  }
+
+  canvas {
+    display: block;
+    margin-top: 10px;
   }
 }
+
