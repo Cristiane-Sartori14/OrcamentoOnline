@@ -4,11 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Autorização de Faturamento</title>
-  <link rel="stylesheet" href="Styles.css" />
+<link rel="stylesheet" href="Styles.css">
+  <link rel="stylesheet" href="/OrcamentoOnline/styles.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 
 <body>
+  <!-- Título -->
   <section class="main-title">
     <h1>AUTORIZAÇÃO DE FATURAMENTO</h1>
   </section>
@@ -18,8 +20,10 @@
     <strong>Total: <span id="valorTotal">R$ 0,00</span></strong> referente à compra de:
   </p>
 
+  <!-- Lista de produtos em texto -->
   <div id="listaProdutos"></div>
 
+  <!-- Formulário de entrada -->
   <div id="modoEdicao">
     <label for="cliente">Nome do Cliente / Razão Social:</label>
     <input type="text" id="cliente" />
@@ -45,6 +49,7 @@
     <label for="telefone">Telefone:</label>
     <input type="text" id="telefone" />
 
+    <!-- Pagamento -->
     <section class="forma-pagamento">
       <h3>Forma de Pagamento</h3>
       <label for="entrada">Entrada (R$):</label>
@@ -54,6 +59,7 @@
       <input id="parcelamento" type="text" />
     </section>
 
+    <!-- Produtos -->
     <h3>Lista de Produtos</h3>
     <div id="produtos">
       <div class="produto">
@@ -71,12 +77,15 @@
     <button type="button" onclick="adicionarProduto()">Adicionar Produto</button>
   </div>
 
+  <!-- Resultado final (escondido inicialmente) -->
   <div id="orcamentoArea" style="display: none;"></div>
 
+  <!-- Botões -->
   <button type="button" onclick="salvarOrcamento()">Salvar Orçamento PDF</button>
 
-  <canvas id="assinatura" width="400" height="200" style="border:1px solid #000"></canvas>
-  <button type="button" onclick="limparAssinatura()">Limpar Assinatura</button>
+  <!-- Assinatura -->
+  <canvas id="assinatura" width="400" height="200"></canvas>
+  <button type="button" onclick="linkAssinatura()">Enviar link assinatura</button>
 
   <script src="Script.js"></script>
 </body>
