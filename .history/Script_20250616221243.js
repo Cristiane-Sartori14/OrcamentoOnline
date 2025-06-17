@@ -68,7 +68,9 @@ function salvarOrcamento() {
 
     if (nome && qtd > 0 && valor > 0) {
       const subtotal = qtd * valor;
-      listaProdutos += `${i + 1}. ${nome} - ${qtd} un x R$ ${valor.toFixed(2)} = R$ ${subtotal.toFixed(2)}<br>`;
+      listaProdutos += `${i + 1}. ${nome} - ${qtd} un x R$ ${valor.toFixed(
+        2
+      )} = R$ ${subtotal.toFixed(2)}<br>`;
       total += subtotal;
     }
   });
@@ -79,8 +81,8 @@ function salvarOrcamento() {
     <strong>R$ ${total.toFixed(2)}</strong> referente à compra de:</p>
 
     <div>
-      ${listaProdutos}
-    </div>
+  ${listaProdutos}
+</div>
 
     <h3>Forma de Pagamento</h3>
     ENTRADA DE <strong>R$ ${entrada}</strong><br>
@@ -98,31 +100,33 @@ function salvarOrcamento() {
     Nome e assinatura do responsável pela empresa que está autorizando.
   `;
 
+  // Converte o canvas para imagem
   const assinaturaCanvas = document.getElementById("assinatura");
   const assinaturaImg = assinaturaCanvas.toDataURL("image/png");
 
+  // Adiciona no final do texto:
   const textoAssinatura = `
-    <br><strong>Assinatura:</strong><br>
-    <img src="${assinaturaImg}" style="max-width: 300px; border: 1px solid #000;" />
-  `;
+  <br><strong>Assinatura:</strong><br>
+  <img src="${assinaturaImg}" style="max-width: 300px; border: 1px solid #000;" />
+`;
 
+  // Insere na área do PDF
+  area.innerHTML += textoAssinatura;
   const area = document.getElementById("orcamentoArea");
-  area.innerHTML = texto + textoAssinatura;
+  area.innerHTML = texto;
   area.style.display = "block";
 
-  // Espera o DOM renderizar antes de salvar
   setTimeout(() => {
     const opt = {
       margin: 0.5,
-      filename: 'faturamento.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
+      filename: "faturamento.pdf",
+      image: { type: "jpeg", quality: 0.98 },
       html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+      jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
     };
     html2pdf().from(area).set(opt).save();
-  }, 300); // pequeno delay para garantir renderização
+  }, 200);
 }
-
 
 const canvas = document.getElementById("assinatura");
 const ctx = canvas.getContext("2d");

@@ -79,26 +79,11 @@ input {
   margin-bottom: 15px;
 }
 
-.forma-pagamento input {
-  background-color: white;
-}
-
-.forma-pagamento label {
-  margin-top: 10px;
-}
-
 .forma-pagamento {
    background-color: #f1f1f1;
-  padding: 10px;
+  padding: 15px;
   margin-bottom: 15px;
   border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
-#forma-pagamento {
-  margin: 20px 0;
-  padding: 15px;
- border-radius: 8px;
   border: 1px solid #ccc;
 }
 

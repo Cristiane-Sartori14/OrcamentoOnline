@@ -84,12 +84,12 @@ input {
 }
 
 .forma-pagamento label {
-  margin-top: 10px;
+  margin-top: 30px;
 }
 
 .forma-pagamento {
    background-color: #f1f1f1;
-  padding: 10px;
+  padding: 15px;
   margin-bottom: 15px;
   border-radius: 8px;
   border: 1px solid #ccc;
@@ -98,7 +98,8 @@ input {
 #forma-pagamento {
   margin: 20px 0;
   padding: 15px;
- border-radius: 8px;
+  background-color: #e9f5f0;
+  border-radius: 8px;
   border: 1px solid #ccc;
 }
 

@@ -34,6 +34,15 @@ section.main-title {
   text-align: center;
 }
 
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
 #orcamentoArea {
   padding: 20px;
@@ -77,29 +86,6 @@ input {
   background-color: #fff;
   box-sizing: border-box;
   margin-bottom: 15px;
-}
-
-.forma-pagamento input {
-  background-color: white;
-}
-
-.forma-pagamento label {
-  margin-top: 10px;
-}
-
-.forma-pagamento {
-   background-color: #f1f1f1;
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
-#forma-pagamento {
-  margin: 20px 0;
-  padding: 15px;
- border-radius: 8px;
-  border: 1px solid #ccc;
 }
 
 .produto {

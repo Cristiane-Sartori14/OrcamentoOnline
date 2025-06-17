@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Autorização de Faturamento</title>
+    <link rel="stylesheet" href="Styles.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  </head>
+
+  <body>
+    <!-- Título -->
+    <section class="main-title">
+      <h1>AUTORIZAÇÃO DE FATURAMENTO</h1>
+    </section>
+
+    <p>
+      Autorizamos a empresa  <b>BELLENZIER PNEUS LTDA</b> a faturar o valor total de
+    <strong>Total: <span id="valorTotal">R$ 0,00 </span></strong>referente à compra de:
+    </p>
+
+    <div id="listaProdutos"></div>
+    
+    <div id="modoEdicao">
+      <!-- Dados do cliente -->
+      <label for="cliente">Nome do Cliente / Razão Social:</label>
+      <input type="text" id="cliente" /><br />
+      <label for="cnpj">CNPJ:</label>
+      <input type="text" id="cnpj" /><br />
+      <label for="ie">IE:</label>
+      <input type="text" id="ie" /><br />
+      <label for="endereco">Endereço:</label>
+      <input type="text" id="endereco" /><br />
+      <label for="cidade">Cidade (UF):</label>
+      <input type="text" id="cidade" /><br />
+      <label for="cep">CEP:</label>
+      <input type="text" id="cep" /><br />
+      <label for="contato">Nome do Contato:</label>
+      <input type="text" id="contato" /><br />
+      <label for="telefone">Telefone:</label>
+      <input type="text" id="telefone" /><br />
+
+      <!-- Pagamento -->
+      <section class="forma-pagamento">
+        <h3>Forma de Pagamento</h3>
+        <label for="entrada">Entrada (R$):</label>
+        <input id="entrada" type="text" /><br />
+        <label for="parcelamento">Parcelamento:</label>
+        <input id="parcelamento" type="text" />
+      </section>
+
+      <!-- Produtos -->
+    <h3>Lista de Produtos</h3>
+
+<div id="produtos">
+  <!-- Produto inicial visível por padrão -->
+  <div class="produto">
+    <label>Produto:</label>
+    <input type="text" class="nome" />
+
+    <label>Quantidade:</label>
+    <input type="number" class="quantidade" />
+
+    <label>Valor Unitário (R$):</label>
+    <input type="number" step="0.01" class="valor" />
+  </div>
+</div>
+
+<button type="button" onclick="adicionarProduto()">Adicionar Produto</button>
+
+    
+
+    <!-- Resultado final -->
+    <div id="orcamentoArea" style="margin-top: 40px"></div>
+
+    <!-- Botão PDF -->
+    <button type="button" onclick="salvarOrcamento()">
+      Salvar Orçamento PDF
+    </button>
+
+     <!-- Botão link -->
+    <canvas id="assinatura" width="400" height="200"></canvas>
+
+    <button type="button" onclick="linkAssinatura()">
+      Enviar link assinatura
+    </button>
+
+    <script src="Script.js"></script>
+  </body>
+</html>

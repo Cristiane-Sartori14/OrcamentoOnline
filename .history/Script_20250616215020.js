@@ -29,14 +29,12 @@ function calcularTotal() {
     if (nome && qtd > 0 && valor > 0) {
       const subtotal = qtd * valor;
       total += subtotal;
-      lista += `<li>${nome} - ${qtd} un x R$ ${valor.toFixed(
-        2
-      )} = R$ ${subtotal.toFixed(2)}</li>`;
+      lista += `${i + 1}. ${nome} - ${qtd} un x R$ ${valor.toFixed(2)} = R$ ${subtotal.toFixed(2)}<br>`;
     }
   });
 
   document.getElementById("valorTotal").innerHTML = `R$ ${total.toFixed(2)}`;
-  document.getElementById("listaProdutos").innerHTML = `<ul>${lista}</ul>`;
+  document.getElementById("listaProdutos").innerHTML = lista;
 }
 
 // Aplica cálculo ao carregar a página
@@ -78,9 +76,7 @@ function salvarOrcamento() {
     <p>Autorizamos a empresa ELLENZIER PNEUS LTDA a faturar o valor total de 
     <strong>R$ ${total.toFixed(2)}</strong> referente à compra de:</p>
 
-    <div>
-      ${listaProdutos}
-    </div>
+    ${listaProdutos}
 
     <h3>Forma de Pagamento</h3>
     ENTRADA DE <strong>R$ ${entrada}</strong><br>
@@ -98,19 +94,10 @@ function salvarOrcamento() {
     Nome e assinatura do responsável pela empresa que está autorizando.
   `;
 
-  const assinaturaCanvas = document.getElementById("assinatura");
-  const assinaturaImg = assinaturaCanvas.toDataURL("image/png");
-
-  const textoAssinatura = `
-    <br><strong>Assinatura:</strong><br>
-    <img src="${assinaturaImg}" style="max-width: 300px; border: 1px solid #000;" />
-  `;
-
   const area = document.getElementById("orcamentoArea");
-  area.innerHTML = texto + textoAssinatura;
+  area.innerHTML = texto;
   area.style.display = "block";
 
-  // Espera o DOM renderizar antes de salvar
   setTimeout(() => {
     const opt = {
       margin: 0.5,
@@ -120,34 +107,10 @@ function salvarOrcamento() {
       jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
     };
     html2pdf().from(area).set(opt).save();
-  }, 300); // pequeno delay para garantir renderização
-}
-
-
-const canvas = document.getElementById("assinatura");
-const ctx = canvas.getContext("2d");
-let desenhando = false;
-
-canvas.addEventListener("mousedown", () => (desenhando = true));
-canvas.addEventListener("mouseup", () => (desenhando = false));
-canvas.addEventListener("mousemove", desenhar);
-
-function desenhar(e) {
-  if (!desenhando) return;
-  ctx.lineWidth = 2;
-  ctx.lineCap = "round";
-  ctx.strokeStyle = "#000";
-  ctx.lineTo(e.offsetX, e.offsetY);
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.moveTo(e.offsetX, e.offsetY);
+  }, 200);
 }
 
 // Função fictícia (exemplo) para botão "Enviar link assinatura"
 function linkAssinatura() {
-  const url = window.location.href;
-  navigator.clipboard.writeText(url);
-  alert(
-    "Link copiado! Envie este link para o responsável assinar no campo abaixo."
-  );
+  alert("Funcionalidade de link de assinatura ainda não implementada.");
 }

@@ -1,4 +1,4 @@
-// Adiciona produto
+// Adiciona dinamicamente um novo produto
 function adicionarProduto() {
   const div = document.createElement("div");
   div.classList.add("produto");
@@ -29,22 +29,24 @@ function calcularTotal() {
     if (nome && qtd > 0 && valor > 0) {
       const subtotal = qtd * valor;
       total += subtotal;
-      lista += `<li>${nome} - ${qtd} un x R$ ${valor.toFixed(
-        2
-      )} = R$ ${subtotal.toFixed(2)}</li>`;
+      lista += `${i + 1}. ${nome} - ${qtd} un x R$ ${valor.toFixed(2)} = R$ ${subtotal.toFixed(2)}<br>`;
     }
   });
 
   document.getElementById("valorTotal").innerHTML = `R$ ${total.toFixed(2)}`;
-  document.getElementById("listaProdutos").innerHTML = `<ul>${lista}</ul>`;
+  document.getElementById("listaProdutos").innerHTML = lista;
 }
 
 // Aplica cálculo ao carregar a página
 window.onload = () => {
+  const campos = document.querySelectorAll(".produto input");
+  campos.forEach(input => {
+    input.addEventListener("input", calcularTotal);
+  });
   calcularTotal();
 };
 
-// Função para gerar o orçamento e salvar como PDF
+// Função para gerar a ordem de faturamento
 function salvarOrcamento() {
   const cliente = document.getElementById("cliente").value;
   const cnpj = document.getElementById("cnpj").value;
@@ -55,7 +57,7 @@ function salvarOrcamento() {
   const contato = document.getElementById("contato").value;
   const telefone = document.getElementById("telefone").value;
   const entrada = document.getElementById("entrada").value;
-  const parcelamento = document.getElementById("parcelamento").value;
+  const boleto = document.getElementById("boleto").value;
 
   const produtos = document.querySelectorAll(".produto");
   let listaProdutos = "";
@@ -74,17 +76,14 @@ function salvarOrcamento() {
   });
 
   const texto = `
-    <h2 style="text-align:center;">AUTORIZAÇÃO DE FATURAMENTO</h2>
-    <p>Autorizamos a empresa ELLENZIER PNEUS LTDA a faturar o valor total de 
+    <h2>AUTORIZAÇÃO DE FATURAMENTO</h2>
+    <p>Autorizamos a empresa <strong>Bellenzier Pneus Ltda</strong> a faturar o valor total de 
     <strong>R$ ${total.toFixed(2)}</strong> referente à compra de:</p>
-
-    <div>
-      ${listaProdutos}
-    </div>
+    ${listaProdutos}
 
     <h3>Forma de Pagamento</h3>
     ENTRADA DE <strong>R$ ${entrada}</strong><br>
-    SALDO BOLETOS EM <strong>${parcelamento}</strong><br><br>
+    SALDO BOLETOS EM <strong>${boleto}</strong><br><br>
 
     <h3>Dados para Faturar</h3>
     Razão Social: ${cliente}<br>
@@ -98,56 +97,48 @@ function salvarOrcamento() {
     Nome e assinatura do responsável pela empresa que está autorizando.
   `;
 
-  const assinaturaCanvas = document.getElementById("assinatura");
-  const assinaturaImg = assinaturaCanvas.toDataURL("image/png");
-
-  const textoAssinatura = `
-    <br><strong>Assinatura:</strong><br>
-    <img src="${assinaturaImg}" style="max-width: 300px; border: 1px solid #000;" />
-  `;
-
   const area = document.getElementById("orcamentoArea");
-  area.innerHTML = texto + textoAssinatura;
-  area.style.display = "block";
-
-  // Espera o DOM renderizar antes de salvar
-  setTimeout(() => {
-    const opt = {
-      margin: 0.5,
-      filename: 'faturamento.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-    };
-    html2pdf().from(area).set(opt).save();
-  }, 300); // pequeno delay para garantir renderização
+  area.innerHTML = texto;
 }
 
-
-const canvas = document.getElementById("assinatura");
-const ctx = canvas.getContext("2d");
-let desenhando = false;
-
-canvas.addEventListener("mousedown", () => (desenhando = true));
-canvas.addEventListener("mouseup", () => (desenhando = false));
-canvas.addEventListener("mousemove", desenhar);
-
-function desenhar(e) {
-  if (!desenhando) return;
-  ctx.lineWidth = 2;
-  ctx.lineCap = "round";
-  ctx.strokeStyle = "#000";
-  ctx.lineTo(e.offsetX, e.offsetY);
-  ctx.stroke();
-  ctx.beginPath();
-  ctx.moveTo(e.offsetX, e.offsetY);
+// LIMPAR ASSINATURA
+function limparAssinatura() {
+  const canvas = document.getElementById("assinatura");
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-// Função fictícia (exemplo) para botão "Enviar link assinatura"
-function linkAssinatura() {
-  const url = window.location.href;
-  navigator.clipboard.writeText(url);
-  alert(
-    "Link copiado! Envie este link para o responsável assinar no campo abaixo."
-  );
+// SALVAR ASSINATURA
+function salvarAssinatura() {
+  const canvas = document.getElementById("assinatura");
+  const link = document.createElement("a");
+  link.download = "assinatura.png";
+  link.href = canvas.toDataURL();
+  link.click();
 }
+
+// OPÇÃO EXTRA: desenhar no canvas
+(function habilitarAssinatura() {
+  const canvas = document.getElementById("assinatura");
+  const ctx = canvas.getContext("2d");
+  let desenhando = false;
+
+  canvas.addEventListener("mousedown", () => desenhando = true);
+  canvas.addEventListener("mouseup", () => desenhando = false);
+  canvas.addEventListener("mouseout", () => desenhando = false);
+
+  canvas.addEventListener("mousemove", (e) => {
+    if (!desenhando) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    ctx.lineWidth = 2;
+    ctx.lineCap = "round";
+    ctx.strokeStyle = "#000";
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+  });
+})();
