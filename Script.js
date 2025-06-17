@@ -79,8 +79,11 @@ function salvarOrcamento() {
     <h2>AUTORIZAÇÃO DE FATURAMENTO</h2>
     <p>Autorizamos a empresa BELLENZIER PNEUS LTDA a faturar o valor total de 
     <strong>R$ ${total.toFixed(2)}</strong> referente à compra de:</p>
-    ${listaProdutos}
-
+    
+     <div>
+      ${listaProdutos}
+     </div>
+     
     <h3>Forma de Pagamento</h3>
     ENTRADA DE <strong>R$ ${entrada}</strong><br>
     SALDO BOLETOS EM <strong>${parcelamento}</strong><br><br>
@@ -98,7 +101,8 @@ function salvarOrcamento() {
   `;
 
   const area = document.getElementById("orcamentoArea");
-  area.innerHTML = texto;
+  area.innerHTML = texto + textoAssinatura;
+  area.style.display = "block";
 
   // Gerar PDF automaticamente
   html2pdf().from(area).save();
