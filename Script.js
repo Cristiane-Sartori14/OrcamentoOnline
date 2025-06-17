@@ -1,4 +1,3 @@
-// Adiciona dinamicamente um novo produto
 function adicionarProduto() {
   const div = document.createElement("div");
   div.classList.add("produto");
@@ -15,7 +14,6 @@ function adicionarProduto() {
   document.getElementById("produtos").appendChild(div);
 }
 
-// Calcula o total e atualiza o resumo dos produtos
 function calcularTotal() {
   const produtos = document.querySelectorAll(".produto");
   let total = 0;
@@ -37,7 +35,6 @@ function calcularTotal() {
   document.getElementById("listaProdutos").innerHTML = lista;
 }
 
-// Aplica cálculo ao carregar a página
 window.onload = () => {
   const campos = document.querySelectorAll(".produto input");
   campos.forEach(input => {
@@ -46,7 +43,6 @@ window.onload = () => {
   calcularTotal();
 };
 
-// Função para gerar a ordem de faturamento
 function salvarOrcamento() {
   const cliente = document.getElementById("cliente").value;
   const cnpj = document.getElementById("cnpj").value;
@@ -80,10 +76,8 @@ function salvarOrcamento() {
     <p>Autorizamos a empresa BELLENZIER PNEUS LTDA a faturar o valor total de 
     <strong>R$ ${total.toFixed(2)}</strong> referente à compra de:</p>
     
-     <div>
-      ${listaProdutos}
-     </div>
-     
+    <div>${listaProdutos}</div>
+
     <h3>Forma de Pagamento</h3>
     ENTRADA DE <strong>R$ ${entrada}</strong><br>
     SALDO BOLETOS EM <strong>${parcelamento}</strong><br><br>
@@ -100,8 +94,6 @@ function salvarOrcamento() {
     Nome e assinatura do responsável pela empresa que está autorizando.
   `;
 
-  const area = document.getElementById("orcamentoArea");
-  // Captura e converte o canvas da assinatura em imagem
   const assinaturaCanvas = document.getElementById("assinatura");
   const assinaturaImg = assinaturaCanvas.toDataURL("image/png");
 
@@ -114,9 +106,10 @@ function salvarOrcamento() {
   area.innerHTML = texto + textoAssinatura;
   area.style.display = "block";
 
-  // Gerar PDF automaticamente
   html2pdf().from(area).save();
-// OPÇÃO EXTRA: desenhar no canvas
+}
+
+// Assinatura com canvas
 (function habilitarAssinatura() {
   const canvas = document.getElementById("assinatura");
   const ctx = canvas.getContext("2d");
@@ -142,7 +135,6 @@ function salvarOrcamento() {
   });
 })();
 
-// Limpar assinatura (opcional)
 function limparAssinatura() {
   const canvas = document.getElementById("assinatura");
   const ctx = canvas.getContext("2d");
