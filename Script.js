@@ -98,6 +98,7 @@ function salvarOrcamento() {
     Nome e assinatura do responsável pela empresa que está autorizando.
   `;
 
+  // Converte o canvas para imagem
   const assinaturaCanvas = document.getElementById("assinatura");
   const assinaturaImg = assinaturaCanvas.toDataURL("image/png");
 
@@ -110,7 +111,6 @@ function salvarOrcamento() {
   area.innerHTML = texto + textoAssinatura;
   area.style.display = "block";
 
-  // Espera o DOM renderizar antes de salvar
   setTimeout(() => {
     const opt = {
       margin: 0.5,
@@ -120,9 +120,8 @@ function salvarOrcamento() {
       jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
     };
     html2pdf().from(area).set(opt).save();
-  }, 300); // pequeno delay para garantir renderização
+  }, 200);
 }
-
 
 const canvas = document.getElementById("assinatura");
 const ctx = canvas.getContext("2d");
