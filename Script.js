@@ -101,13 +101,21 @@ function salvarOrcamento() {
   `;
 
   const area = document.getElementById("orcamentoArea");
+  // Captura e converte o canvas da assinatura em imagem
+  const assinaturaCanvas = document.getElementById("assinatura");
+  const assinaturaImg = assinaturaCanvas.toDataURL("image/png");
+
+  const textoAssinatura = `
+    <br><strong>Assinatura:</strong><br>
+    <img src="${assinaturaImg}" style="max-width: 300px; border: 1px solid #000;" />
+  `;
+
+  const area = document.getElementById("orcamentoArea");
   area.innerHTML = texto + textoAssinatura;
   area.style.display = "block";
 
   // Gerar PDF automaticamente
   html2pdf().from(area).save();
-}
-
 // OPÇÃO EXTRA: desenhar no canvas
 (function habilitarAssinatura() {
   const canvas = document.getElementById("assinatura");
