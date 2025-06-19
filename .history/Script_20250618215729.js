@@ -192,12 +192,3 @@ function saveSignature() {
   img.src = dataURL;
   img.style.display = "block";
 }
-
-function linkAssinatura() {
-  const canvas = document.getElementById("signatureCanvas");
-  const dataURL = canvas.toDataURL("image/png");
-  const link = document.createElement("a");
-  link.href = dataURL;
-  link.download = "assinatura.png";
-  link.click();
-}

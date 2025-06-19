@@ -75,7 +75,7 @@ function salvarOrcamento() {
     }
   });
 
-  const assinaturaCanvas = document.getElementById("signatureCanvas"); // <== aqui!
+  const assinaturaCanvas = document.getElementById("assinatura");
   const assinaturaImg = assinaturaCanvas.toDataURL("image/png");
 
   const texto = `
@@ -105,99 +105,54 @@ function salvarOrcamento() {
   const area = document.getElementById("orcamentoArea");
   area.innerHTML = texto;
   area.style.display = "block";
-
-  // gera PDF
-  const options = {
-    margin: 10,
-    filename: "orcamento.pdf",
-    html2canvas: { scale: 2 },
-    jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-  };
-
-  html2pdf().set(options).from(area).save();
 }
 
-document.querySelector("#gerarPdf").addEventListener("click", () => {
-  salvarOrcamento();
+document.getElementById("gerarPdf").addEventListener("click", () => {
+  salvarOrcamento(); 
+
+  setTimeout(() => {
+    const area = document.getElementById("orcamentoArea");
+
+    const options = {
+      margin: 10,
+      filename: "autorizacao_faturamento.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+    };
+
+    html2pdf().set(options).from(area).save();
+  }, 300); // tempo para garantir que o conteúdo foi renderizado
 });
 
 // Assinatura com canvas
-const assinaturaCanvas = document.getElementById("signatureCanvas");
-const ctx = canvas.getContext("2d");
-let drawing = false;
-let lastX = 0;
-let lastY = 0;
+(function habilitarAssinatura() {
+  const canvas = document.getElementById("assinatura");
+  const ctx = canvas.getContext("2d");
+  let desenhando = false;
 
-// Estilo do traço
-ctx.lineWidth = 2;
-ctx.lineCap = "round";
-ctx.strokeStyle = "#000";
+  canvas.addEventListener("mousedown", () => (desenhando = true));
+  canvas.addEventListener("mouseup", () => (desenhando = false));
+  canvas.addEventListener("mouseout", () => (desenhando = false));
 
-// Mouse
-canvas.addEventListener("mousedown", function (e) {
-  drawing = true;
-  [lastX, lastY] = [e.offsetX, e.offsetY];
-});
+  canvas.addEventListener("mousemove", (e) => {
+    if (!desenhando) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
-canvas.addEventListener("mousemove", function (e) {
-  if (!drawing) return;
-  drawLine(lastX, lastY, e.offsetX, e.offsetY);
-  [lastX, lastY] = [e.offsetX, e.offsetY];
-});
+    ctx.lineWidth = 2;
+    ctx.lineCap = "round";
+    ctx.strokeStyle = "#000";
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+  });
+})();
 
-canvas.addEventListener("mouseup", () => (drawing = false));
-canvas.addEventListener("mouseout", () => (drawing = false));
-
-// Toque
-canvas.addEventListener("touchstart", function (e) {
-  e.preventDefault();
-  drawing = true;
-  const touch = e.touches[0];
-  const rect = canvas.getBoundingClientRect();
-  lastX = touch.clientX - rect.left;
-  lastY = touch.clientY - rect.top;
-});
-
-canvas.addEventListener("touchmove", function (e) {
-  e.preventDefault();
-  if (!drawing) return;
-  const touch = e.touches[0];
-  const rect = canvas.getBoundingClientRect();
-  const currentX = touch.clientX - rect.left;
-  const currentY = touch.clientY - rect.top;
-  drawLine(lastX, lastY, currentX, currentY);
-  [lastX, lastY] = [currentX, currentY];
-});
-
-canvas.addEventListener("touchend", () => (drawing = false));
-
-// Desenho
-function drawLine(x1, y1, x2, y2) {
-  ctx.beginPath();
-  ctx.moveTo(x1, y1);
-  ctx.lineTo(x2, y2);
-  ctx.stroke();
-}
-
-// Limpa o canvas
-function clearCanvas() {
+function limparAssinatura() {
+  const canvas = document.getElementById("assinatura");
+  const ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  document.getElementById("signatureImage").style.display = "none";
-}
-
-// Salva como imagem
-function saveSignature() {
-  const dataURL = canvas.toDataURL("image/png");
-  const img = document.getElementById("signatureImage");
-  img.src = dataURL;
-  img.style.display = "block";
-}
-
-function linkAssinatura() {
-  const canvas = document.getElementById("signatureCanvas");
-  const dataURL = canvas.toDataURL("image/png");
-  const link = document.createElement("a");
-  link.href = dataURL;
-  link.download = "assinatura.png";
-  link.click();
 }

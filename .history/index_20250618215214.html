@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Autorização de Faturamento</title>
     <link rel="stylesheet" href="Styles.css" />
+    <link rel="stylesheet" href="/OrcamentoOnline/styles.css" />
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.3/html2pdf.bundle.min.js"
       integrity="sha512-yu5WG6ewBNKx8svICzUA01vozhmiQCVfzjzW40eCHJdsDRaOifh9hPlWBDex5b32gWCzawTp1F3FJz60ps6TnQ=="
@@ -90,10 +91,16 @@
     <button id="gerarPdf">Gerar PDF</button>
 
     <!-- Assinatura -->
-    <canvas id="signatureCanvas" width="400" height="200"></canvas>
-    <button type="button" onclick="linkAssinatura()">
-      Enviar link assinatura
-    </button>
+    <h2>Assine abaixo:</h2>
+    <canvas id="signatureCanvas" width="400" height="200"></canvas><br /><br />
+    <button onclick="clearCanvas()">Limpar Assinatura</button>
+    <button onclick="saveSignature()">Salvar Assinatura</button><br /><br />
+    <img
+      id="signatureImage"
+      src=""
+      alt="Assinatura"
+      style="display: none; border: 1px solid #ccc"
+    />
 
     <script src="Script.js"></script>
   </body>

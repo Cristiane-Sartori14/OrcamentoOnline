@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Autorização de Faturamento</title>
     <link rel="stylesheet" href="Styles.css" />
+    <link rel="stylesheet" href="/OrcamentoOnline/styles.css" />
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.3/html2pdf.bundle.min.js"
       integrity="sha512-yu5WG6ewBNKx8svICzUA01vozhmiQCVfzjzW40eCHJdsDRaOifh9hPlWBDex5b32gWCzawTp1F3FJz60ps6TnQ=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   </head>
 
   <body>
@@ -87,10 +89,13 @@
     <!-- Resultado final (escondido inicialmente) -->
     <div id="orcamentoArea" style="display: none"></div>
 
-    <button id="gerarPdf">Gerar PDF</button>
+    <!-- Botões -->
+    <button id="generate-pdf" onclick="salvarOrcamento()">
+      Salvar Orçamento PDF
+    </button>
 
     <!-- Assinatura -->
-    <canvas id="signatureCanvas" width="400" height="200"></canvas>
+    <canvas id="assinatura" width="400" height="200"></canvas>
     <button type="button" onclick="linkAssinatura()">
       Enviar link assinatura
     </button>
