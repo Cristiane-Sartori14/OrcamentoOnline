@@ -306,7 +306,4 @@ function gerarLinkAssinatura() {
   const botao = document.getElementById("botaoAssinatura");
   botao.href = urlAssinatura;
   document.getElementById("linkAssinaturaContainer").style.display = "block";
-
-document.getElementById("gerarLinkAssinatura").addEventListener("click", gerarLinkAssinatura);
-
 }

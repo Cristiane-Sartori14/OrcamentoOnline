@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <title>Autorização de Faturamento</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+    }
+    #orcamentoArea {
+      border: 1px solid #ccc;
+      padding: 20px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Orçamento</h1>
+
+  <label>Cliente: <input type="text" id="cliente" /></label><br><br>
+  <label>Valor: <input type="text" id="valor" /></label><br><br>
+
+  <canvas id="assinatura" width="400" height="100" style="border:1px solid #000;"></canvas><br><br>
+
+  <button id="gerarPdf">Gerar PDF</button>
+
+  <div id="orcamentoArea" style="display: none;"></div>
+
+  <script src="Script.js"></script>
+</body>
+</html>

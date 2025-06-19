@@ -120,6 +120,7 @@ window.addEventListener("load", () => {
   calcularTotal();
 });
 
+
 function salvarOrcamento() {
   const cliente = document.getElementById("cliente").value;
   const cnpj = document.getElementById("cnpj").value;
@@ -150,6 +151,7 @@ function salvarOrcamento() {
     }
   });
 
+ 
   const texto = `
     <h2>AUTORIZAÇÃO DE FATURAMENTO</h2>
     <p>Autorizamos a empresa BELLENZIER PNEUS LTDA a faturar o valor total de 
@@ -169,7 +171,9 @@ function salvarOrcamento() {
 
     Porto Alegre, ${new Date().toLocaleDateString("pt-BR")}<br><br>
     _______________________________________________<br>
- <strong>Assinatura do responsável:</strong><br>`;
+ <strong>Assinatura:</strong><br>
+<img src="${assinaturaImg}" style="max-width: 300px; border: 1px solid #000;" />
+`;
 
   const area = document.getElementById("orcamentoArea");
   area.innerHTML = texto;
@@ -259,54 +263,11 @@ window.onload = function () {
 };
 
 // Função para gerar imagem da assinatura (opcional)
-function gerarLinkAssinatura() {
-  const cliente = document.getElementById("cliente").value;
-  const cnpj = document.getElementById("cnpj").value;
-  const ie = document.getElementById("ie").value;
-  const endereco = document.getElementById("endereco").value;
-  const cidade = document.getElementById("cidade").value;
-  const cep = document.getElementById("cep").value;
-  const contato = document.getElementById("contato").value;
-  const telefone = document.getElementById("telefone").value;
-  const entrada = document.getElementById("entrada").value;
-  const parcelamento = document.getElementById("parcelamento").value;
-
-  const produtos = document.querySelectorAll(".produto");
-  const listaProdutos = [];
-
-  produtos.forEach((p) => {
-    const nome = p.querySelector(".nome").value.trim();
-    const qtd = parseInt(p.querySelector(".quantidade").value) || 0;
-    const valor = parseFloat(p.querySelector(".valor").value) || 0;
-
-    if (nome && qtd > 0 && valor > 0) {
-      listaProdutos.push({ nome, quantidade: qtd, valor });
-    }
-  });
-
-  const dados = {
-    cliente,
-    cnpj,
-    ie,
-    endereco,
-    cidade,
-    cep,
-    contato,
-    telefone,
-    entrada,
-    parcelamento,
-    produtos: listaProdutos,
-  };
-
-  const jsonStr = JSON.stringify(dados);
-  const encoded = btoa(encodeURIComponent(jsonStr));
-
-  const urlAssinatura = `assinatura.html?data=${encoded}`;
-
-  const botao = document.getElementById("botaoAssinatura");
-  botao.href = urlAssinatura;
-  document.getElementById("linkAssinaturaContainer").style.display = "block";
-
-document.getElementById("gerarLinkAssinatura").addEventListener("click", gerarLinkAssinatura);
-
+function linkAssinatura() {
+  const canvas = document.getElementById("signatureCanvas");
+  const dataURL = canvas.toDataURL("image/png");
+  const link = document.createElement("a");
+  link.href = dataURL;
+  link.download = "assinatura.png";
+  link.click();
 }

@@ -37,88 +37,14 @@ function calcularTotal() {
   document.getElementById("listaProdutos").innerHTML = lista;
 }
 
+
 window.addEventListener("load", () => {
-  // Inicializa eventos de produto
   const campos = document.querySelectorAll(".produto input");
-  campos.forEach((input) => {
-    input.addEventListener("input", calcularTotal);
-  });
-
-  // Inicializa evento do botão PDF
-  const botaoPDF = document.querySelector("#gerarPdf");
-  if (botaoPDF) {
-    botaoPDF.addEventListener("click", salvarOrcamento);
-  }
-
-  // Inicializa assinatura no canvas
-  const canvas = document.getElementById("signatureCanvas");
-  if (canvas) {
-    const ctx = canvas.getContext("2d");
-    let desenhando = false;
-    let lastX = 0;
-    let lastY = 0;
-
-    ctx.lineWidth = 2;
-    ctx.lineCap = "round";
-    ctx.strokeStyle = "#000";
-
-    canvas.addEventListener("mousedown", function (e) {
-      desenhando = true;
-      [lastX, lastY] = [e.offsetX, e.offsetY];
-      ctx.beginPath();
-      ctx.moveTo(lastX, lastY);
-    });
-
-    canvas.addEventListener("mousemove", function (e) {
-      if (!desenhando) return;
-      ctx.lineTo(e.offsetX, e.offsetY);
-      ctx.stroke();
-      [lastX, lastY] = [e.offsetX, e.offsetY];
-    });
-
-    canvas.addEventListener("mouseup", () => {
-      desenhando = false;
-      ctx.closePath();
-    });
-
-    canvas.addEventListener("mouseout", () => {
-      desenhando = false;
-      ctx.closePath();
-    });
-
-    // Toque mobile
-    canvas.addEventListener("touchstart", function (e) {
-      e.preventDefault();
-      desenhando = true;
-      const touch = e.touches[0];
-      const rect = canvas.getBoundingClientRect();
-      lastX = touch.clientX - rect.left;
-      lastY = touch.clientY - rect.top;
-      ctx.beginPath();
-      ctx.moveTo(lastX, lastY);
-    });
-
-    canvas.addEventListener("touchmove", function (e) {
-      e.preventDefault();
-      if (!desenhando) return;
-      const touch = e.touches[0];
-      const rect = canvas.getBoundingClientRect();
-      const x = touch.clientX - rect.left;
-      const y = touch.clientY - rect.top;
-      ctx.lineTo(x, y);
-      ctx.stroke();
-      [lastX, lastY] = [x, y];
-    });
-
-    canvas.addEventListener("touchend", () => {
-      desenhando = false;
-      ctx.closePath();
-    });
-  }
-
-  // Chama total inicial
+  campos.forEach((input) => input.addEventListener("input", calcularTotal));
   calcularTotal();
+  inicializarCanvasAssinatura(); // Aqui você inicializa o canvas corretamente
 });
+
 
 function salvarOrcamento() {
   const cliente = document.getElementById("cliente").value;
@@ -150,6 +76,9 @@ function salvarOrcamento() {
     }
   });
 
+  const assinaturaCanvas = document.getElementById("signatureCanvas"); // <== aqui!
+  const assinaturaImg = assinaturaCanvas.toDataURL("image/png");
+
   const texto = `
     <h2>AUTORIZAÇÃO DE FATURAMENTO</h2>
     <p>Autorizamos a empresa BELLENZIER PNEUS LTDA a faturar o valor total de 
@@ -169,7 +98,10 @@ function salvarOrcamento() {
 
     Porto Alegre, ${new Date().toLocaleDateString("pt-BR")}<br><br>
     _______________________________________________<br>
- <strong>Assinatura do responsável:</strong><br>`;
+    Nome e assinatura do responsável<br><br>
+    <strong>Assinatura:</strong><br>
+    <img src="${assinaturaImg}" style="max-width: 300px; border: 1px solid #000;" />
+  `;
 
   const area = document.getElementById("orcamentoArea");
   area.innerHTML = texto;
@@ -189,27 +121,7 @@ function salvarOrcamento() {
 document.querySelector("#gerarPdf").addEventListener("click", () => {
   salvarOrcamento();
 });
-
-// Assinatura com canvas
-window.onload = function () {
-  const canvas = document.getElementById("signatureCanvas");
-  const ctx = canvas.getContext("2d");
-  let desenhando = false;
-  let lastX = 0;
-  let lastY = 0;
-
-  // Estilo do traço
-  ctx.lineWidth = 2;
-  ctx.lineCap = "round";
-  ctx.strokeStyle = "#000";
-
-  // Mouse
-  canvas.addEventListener("mousedown", function (e) {
-    desenhando = true;
-    [lastX, lastY] = [e.offsetX, e.offsetY];
-    ctx.beginPath();
-    ctx.moveTo(lastX, lastY);
-  });
+ 
 
   canvas.addEventListener("mousemove", function (e) {
     if (!desenhando) return;
@@ -271,42 +183,96 @@ function gerarLinkAssinatura() {
   const entrada = document.getElementById("entrada").value;
   const parcelamento = document.getElementById("parcelamento").value;
 
-  const produtos = document.querySelectorAll(".produto");
-  const listaProdutos = [];
-
-  produtos.forEach((p) => {
+  const produtos = [];
+  document.querySelectorAll(".produto").forEach((p) => {
     const nome = p.querySelector(".nome").value.trim();
-    const qtd = parseInt(p.querySelector(".quantidade").value) || 0;
-    const valor = parseFloat(p.querySelector(".valor").value) || 0;
+    const quantidade = p.querySelector(".quantidade").value;
+    const valor = p.querySelector(".valor").value;
 
-    if (nome && qtd > 0 && valor > 0) {
-      listaProdutos.push({ nome, quantidade: qtd, valor });
+    // Verifica se o produto tem dados válidos
+    if (nome && quantidade && valor) {
+      produtos.push({ nome, quantidade, valor });
     }
   });
 
   const dados = {
-    cliente,
-    cnpj,
-    ie,
-    endereco,
-    cidade,
-    cep,
-    contato,
-    telefone,
-    entrada,
-    parcelamento,
-    produtos: listaProdutos,
+    cliente, cnpj, ie, endereco, cidade, cep, contato, telefone,
+    entrada, parcelamento, produtos,
   };
 
-  const jsonStr = JSON.stringify(dados);
-  const encoded = btoa(encodeURIComponent(jsonStr));
+  try {
+    const json = JSON.stringify(dados);
+    const base64 = btoa(encodeURIComponent(json));
+    const url = `assinatura.html?data=${base64}`;
+    prompt("Copie o link para enviar ao cliente:", url);
+  } catch (e) {
+    alert("Erro ao gerar o link: " + e.message);
+    console.error(e);
+  }
+}
 
-  const urlAssinatura = `assinatura.html?data=${encoded}`;
+function inicializarCanvasAssinatura() {
+  const canvas = document.getElementById("signatureCanvas");
+  if (!canvas) return; // segurança
+  const ctx = canvas.getContext("2d");
+  let desenhando = false;
+  let lastX = 0;
+  let lastY = 0;
 
-  const botao = document.getElementById("botaoAssinatura");
-  botao.href = urlAssinatura;
-  document.getElementById("linkAssinaturaContainer").style.display = "block";
+  ctx.lineWidth = 2;
+  ctx.lineCap = "round";
+  ctx.strokeStyle = "#000";
 
-document.getElementById("gerarLinkAssinatura").addEventListener("click", gerarLinkAssinatura);
+  canvas.addEventListener("mousedown", function (e) {
+    desenhando = true;
+    [lastX, lastY] = [e.offsetX, e.offsetY];
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+  });
 
+  canvas.addEventListener("mousemove", function (e) {
+    if (!desenhando) return;
+    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.stroke();
+    [lastX, lastY] = [e.offsetX, e.offsetY];
+  });
+
+  canvas.addEventListener("mouseup", () => {
+    desenhando = false;
+    ctx.closePath();
+  });
+
+  canvas.addEventListener("mouseout", () => {
+    desenhando = false;
+    ctx.closePath();
+  });
+
+  // toque
+  canvas.addEventListener("touchstart", function (e) {
+    e.preventDefault();
+    desenhando = true;
+    const touch = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    lastX = touch.clientX - rect.left;
+    lastY = touch.clientY - rect.top;
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+  });
+
+  canvas.addEventListener("touchmove", function (e) {
+    e.preventDefault();
+    if (!desenhando) return;
+    const touch = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    [lastX, lastY] = [x, y];
+  });
+
+  canvas.addEventListener("touchend", () => {
+    desenhando = false;
+    ctx.closePath();
+  });
 }

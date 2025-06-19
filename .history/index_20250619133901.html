@@ -88,27 +88,17 @@
     <div id="orcamentoArea" style="display: none"></div>
 
     <button id="gerarPdf">Gerar PDF</button>
-<button onclick="gerarLinkAssinatura()">Gerar Link de Assinatura</button>
-   
 
     <!-- Assinatura -->
-    <div id="linkAssinaturaContainer" style="margin-top: 20px; display: none">
-      <a
-        id="botaoAssinatura"
-        href="#"
-        target="_blank"
-        style="
-          padding: 10px 15px;
-          background-color: #007bff;
-          color: white;
-          text-decoration: none;
-          border-radius: 5px;
-        "
-      >
-        Assinar Documento
-      </a>
-    </div>
+     <h2>Orçamento</h2>
+  <label>Cliente: <input type="text" id="cliente"></label><br>
+  <label>Total: <input type="text" id="total"></label><br>
+  <label>Produtos (HTML):<br>
+    <textarea id="lista" rows="6" cols="50"></textarea>
+  </label><br><br>
 
+  <button onclick="gerarLink()">Gerar link de assinatura</button>
+  <p id="link"></p>
     <script src="Script.js"></script>
   </body>
 </html>

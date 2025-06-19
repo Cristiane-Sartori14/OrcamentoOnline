@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Assinatura do Faturamento</title>
+</head>
+<body>
+  <h2>AUTORIZAÇÃO DE FATURAMENTO</h2>
+  <p><strong>Cliente:</strong> <span id="clienteNome"></span></p>
+  <p><strong>Total:</strong> <span id="valorTotal"></span></p>
+  <div id="listaProdutos"></div>
+
+  <h3>Assine abaixo:</h3>
+  <canvas id="signatureCanvas" width="400" height="200" style="border:1px solid #000;"></canvas><br>
+  <button onclick="clearCanvas()">Limpar</button>
+  <button onclick="saveSignature()">Salvar Assinatura</button>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    document.getElementById("clienteNome").textContent = params.get("cliente");
+    document.getElementById("valorTotal").textContent = params.get("total");
+    document.getElementById("listaProdutos").innerHTML = decodeURIComponent(params.get("lista"));
+
+    const canvas = document.getElementById("signatureCanvas");
+    const ctx = canvas.getContext("2d");
+    let desenhando = false;
+
+    canvas.addEventListener("mousedown", (e) => {
+      desenhando = true;
+      ctx.beginPath();
+      ctx.moveTo(e.offsetX, e.offsetY);
+    });
+
+    canvas.addEventListener("mousemove", (e) => {
+      if (!desenhando) return;
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+    });
+
+    canvas.addEventListener("mouseup", () => desenhando = false);
+    canvas.addEventListener("mouseout", () => desenhando = false);
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function saveSignature() {
+      const dataURL = canvas.toDataURL("image/png");
+      const a = document.createElement("a");
+      a.href = dataURL;
+      a.download = "assinatura.png";
+      a.click();
+      alert("Assinatura salva com sucesso. Envie à empresa.");
+    }
+  </script>
+</body>
+</html>

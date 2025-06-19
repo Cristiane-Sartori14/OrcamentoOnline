@@ -298,15 +298,18 @@ function gerarLinkAssinatura() {
     produtos: listaProdutos,
   };
 
+  // Codifica para base64 para enviar na URL
   const jsonStr = JSON.stringify(dados);
   const encoded = btoa(encodeURIComponent(jsonStr));
 
-  const urlAssinatura = `assinatura.html?data=${encoded}`;
+  // Link para enviar ao cliente assinar
+  const urlAssinatura = `${window.location.origin}/assinatura.html?data=${encoded}`;
 
-  const botao = document.getElementById("botaoAssinatura");
-  botao.href = urlAssinatura;
-  document.getElementById("linkAssinaturaContainer").style.display = "block";
-
-document.getElementById("gerarLinkAssinatura").addEventListener("click", gerarLinkAssinatura);
-
+  // Mostra ou copia o link (você pode ajustar)
+  alert("Link para o cliente assinar:\n" + urlAssinatura);
+  // Ou copia no clipboard:
+  navigator.clipboard.writeText(urlAssinatura).then(() => {
+    alert("Link copiado para a área de transferência!");
+  });
 }
+
