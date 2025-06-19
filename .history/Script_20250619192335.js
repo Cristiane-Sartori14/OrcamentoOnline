@@ -45,7 +45,7 @@ window.addEventListener("load", () => {
   });
 
   // Inicializa assinatura no canvas
-const canvas = document.getElementById("assinatura");
+  const canvas = document.getElementById("signatureCanvas");
   if (canvas) {
     const ctx = canvas.getContext("2d");
     let desenhando = false;
@@ -224,12 +224,12 @@ function gerarLinkAssinatura() {
     produtos: listaProdutos,
   };
 
-  // Salva no localStorage
-  localStorage.setItem("orcamento", JSON.stringify(dados));
+  const jsonStr = JSON.stringify(dados);
+  const encoded = btoa(encodeURIComponent(jsonStr));
 
-  // Redireciona para a página de assinatura
+  const urlAssinatura = `assinatura.html?data=${encoded}`;
+
   const botao = document.getElementById("botaoAssinatura");
-  botao.href = "assinatura.html";
+  botao.href = urlAssinatura;
   document.getElementById("linkAssinaturaContainer").style.display = "block";
 }
-

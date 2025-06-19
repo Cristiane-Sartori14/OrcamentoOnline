@@ -224,12 +224,12 @@ function gerarLinkAssinatura() {
     produtos: listaProdutos,
   };
 
-  // Salva no localStorage
-  localStorage.setItem("orcamento", JSON.stringify(dados));
+  const jsonStr = JSON.stringify(dados);
+  const encoded = btoa(encodeURIComponent(jsonStr));
 
-  // Redireciona para a página de assinatura
+  const urlAssinatura = `assinatura.html?data=${encoded}`;
+
   const botao = document.getElementById("botaoAssinatura");
-  botao.href = "assinatura.html";
+  botao.href = urlAssinatura;
   document.getElementById("linkAssinaturaContainer").style.display = "block";
 }
-
