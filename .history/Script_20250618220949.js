@@ -122,27 +122,25 @@ document.querySelector("#gerarPdf").addEventListener("click", () => {
 });
 
 // Assinatura com canvas
-const assinaturaCanvas = document.getElementById("signatureCanvas");
+const canvas = document.getElementById("assinatura");
 const ctx = canvas.getContext("2d");
-let drawing = false;
-let lastX = 0;
-let lastY = 0;
+let desenhando = false;
 
-// Estilo do traço
-ctx.lineWidth = 2;
-ctx.lineCap = "round";
-ctx.strokeStyle = "#000";
-
-// Mouse
-canvas.addEventListener("mousedown", function (e) {
-  drawing = true;
-  [lastX, lastY] = [e.offsetX, e.offsetY];
+canvas.addEventListener("mousedown", (e) => {
+  desenhando = true;
+  ctx.beginPath();
+  ctx.moveTo(e.offsetX, e.offsetY);
 });
 
-canvas.addEventListener("mousemove", function (e) {
-  if (!drawing) return;
-  drawLine(lastX, lastY, e.offsetX, e.offsetY);
-  [lastX, lastY] = [e.offsetX, e.offsetY];
+canvas.addEventListener("mousemove", (e) => {
+  if (!desenhando) return;
+  ctx.lineTo(e.offsetX, e.offsetY);
+  ctx.stroke();
+});
+
+canvas.addEventListener("mouseup", () => {
+  desenhando = false;
+  ctx.closePath();
 });
 
 canvas.addEventListener("mouseup", () => (drawing = false));
@@ -193,3 +191,11 @@ function saveSignature() {
   img.style.display = "block";
 }
 
+function linkAssinatura() {
+  const canvas = document.getElementById("signatureCanvas");
+  const dataURL = canvas.toDataURL("image/png");
+  const link = document.createElement("a");
+  link.href = dataURL;
+  link.download = "assinatura.png";
+  link.click();
+}

@@ -122,7 +122,7 @@ document.querySelector("#gerarPdf").addEventListener("click", () => {
 });
 
 // Assinatura com canvas
-const assinaturaCanvas = document.getElementById("signatureCanvas");
+const canvas = document.getElementById("assinatura");
 const ctx = canvas.getContext("2d");
 let drawing = false;
 let lastX = 0;
@@ -193,3 +193,11 @@ function saveSignature() {
   img.style.display = "block";
 }
 
+function linkAssinatura() {
+  const canvas = document.getElementById("signatureCanvas");
+  const dataURL = canvas.toDataURL("image/png");
+  const link = document.createElement("a");
+  link.href = dataURL;
+  link.download = "assinatura.png";
+  link.click();
+}
