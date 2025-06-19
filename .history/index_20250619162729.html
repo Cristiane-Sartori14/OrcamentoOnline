@@ -11,7 +11,6 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />
   </head>
 
   <body>
@@ -88,12 +87,10 @@
     <!-- Resultado final (escondido inicialmente) -->
     <div id="orcamentoArea" style="display: none"></div>
 
+    <button id="gerarPdf" onclick="salvarOrcamento()">Gerar PDF</button>
     <button id="gerarPdf">Gerar PDF</button>
-    <button onclick="gerarLinkAssinatura()" id="gerarLinkAssinatura">
-      Gerar Link de Assinatura
-    </button>
 
-    <div id="linkAssinaturaContainer" style="display: none">
+    <div id="linkAssinaturaContainer">
       <a id="botaoAssinatura" href="#" target="_blank">Assinar Documento</a>
     </div>
 

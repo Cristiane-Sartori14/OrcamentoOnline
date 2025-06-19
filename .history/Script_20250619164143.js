@@ -187,8 +187,6 @@ document.querySelector("#gerarPdf").addEventListener("click", () => {
 // Assinatura com canvas
 window.onload = function () {
   const canvas = document.getElementById("assinatura");
-  if (!canvas) return; // Sai da função se não encontrar o canvas
-
   const ctx = canvas.getContext("2d");
   let desenhando = false;
   let lastX = 0;
@@ -235,7 +233,6 @@ window.onload = function () {
     ctx.beginPath();
     ctx.moveTo(lastX, lastY);
   });
-
 
   canvas.addEventListener("touchmove", function (e) {
     e.preventDefault();

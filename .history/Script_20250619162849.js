@@ -44,6 +44,8 @@ window.addEventListener("load", () => {
     input.addEventListener("input", calcularTotal);
   });
 
+ 
+
   // Inicializa assinatura no canvas
   const canvas = document.getElementById("signatureCanvas");
   if (canvas) {
@@ -186,9 +188,7 @@ document.querySelector("#gerarPdf").addEventListener("click", () => {
 
 // Assinatura com canvas
 window.onload = function () {
-  const canvas = document.getElementById("assinatura");
-  if (!canvas) return; // Sai da função se não encontrar o canvas
-
+  const canvas = document.getElementById("signatureCanvas");
   const ctx = canvas.getContext("2d");
   let desenhando = false;
   let lastX = 0;
@@ -235,7 +235,6 @@ window.onload = function () {
     ctx.beginPath();
     ctx.moveTo(lastX, lastY);
   });
-
 
   canvas.addEventListener("touchmove", function (e) {
     e.preventDefault();
@@ -303,4 +302,5 @@ function gerarLinkAssinatura() {
   const botao = document.getElementById("botaoAssinatura");
   botao.href = urlAssinatura;
   document.getElementById("linkAssinaturaContainer").style.display = "block";
+
 }

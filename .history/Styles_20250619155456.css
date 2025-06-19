@@ -42,7 +42,6 @@ section.main-title {
   border-radius: 10px;
   font-size: 15px;
   line-height: 1.8;
-  display:block;
 }
 
 h3 {
@@ -188,6 +187,4 @@ button {
   display: inline-block; /* garante o comportamento de botão/link */
 }
 
-#botaoAssinatura:hover {
-  background-color: #0056b3;
-}
+
