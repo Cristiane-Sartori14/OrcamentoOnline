@@ -1,7 +1,7 @@
 function adicionarProduto() {
   const div = document.createElement("div");
   div.classList.add("produto");
-  div.innerHTML = `
+  divPdf.innerHTML = `
     <label>Produto:</label>
     <input type="text" class="nome" oninput="calcularTotal()" />
 

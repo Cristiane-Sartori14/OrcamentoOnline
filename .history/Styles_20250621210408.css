@@ -15,6 +15,7 @@ body {
 
 #divpdf {
  border: 1px solid #000; 
+ 
 }
 h1 {
   text-align: center;
@@ -30,7 +31,7 @@ h1 {
 p, li {
   text-align: initial;
   margin: 20px 0;
-  font-size: 16px;
+  font-size: 10px;
 }
 
 section.main-title {
@@ -48,14 +49,14 @@ section.main-title {
 }
 
 #orcamentoArea {
-  padding: 10px;
-  background: #fff;
-  color: #000;
-  border: 2px dashed #ccc;
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 12px;
+  line-height: 1.6;
+  padding: 20px;
+  border: 1px dashed #ccc;
   border-radius: 10px;
-  font-size: 15px;
-  line-height: 1.8;
-  display:block;
+  background: #fff;
 }
 
 #orcamentoArea img {
@@ -68,7 +69,6 @@ h2, h3 {
   font-weight: bold;
   margin-top: 30px;
   text-align: center;
-  background: #69AC93;
 }
 
 #listaProdutos {

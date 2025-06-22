@@ -8,8 +8,10 @@
     <style>
       body {
         font-family: Arial, sans-serif;
-        padding: 5px;
-        position: relative;
+        padding: 20px;
+      }
+      #orcamentoArea {
+        margin-bottom: 30px;
       }
       canvas {
         border: 1px solid #000;
@@ -26,33 +28,64 @@
     </style>
   </head>
   <body>
-    <h2>Autorização de faturamento</h2>
-
+    <h2>Revisar Orçamento</h2>
     <div id="orcamentoArea">Carregando...</div>
 
     <h3>Assinatura do responsável</h3>
-    <canvas id="assinatura" width="400" height="150"></canvas>
+    <canvas id="assinatura"></canvas>
     <button onclick="limparAssinatura()">Limpar Assinatura</button>
     <button onclick="salvarPdf()">Salvar PDF com Assinatura</button>
 
     <script>
-      const dataEncoded = new URLSearchParams(window.location.search).get(
-        "data"
-      );
+      const params = new URLSearchParams(window.location.search);
+      const dataEncoded = params.get("data");
 
       if (!dataEncoded) {
         document.getElementById("orcamentoArea").innerHTML =
           "<p>Dados do orçamento não encontrados.</p>";
-        throw new Error("Dados do orçamento não fornecidos.");
       }
 
-      const dados = JSON.parse(decodeURIComponent(atob(dataEncoded)));
+      try {
+        const jsonStr = decodeURIComponent(atob(dataEncoded));
+        console.log("Conteúdo decodificado:", jsonStr);
+        const dados = JSON.parse(jsonStr);
+
+        // Exemplo: montar uma lista simples dos produtos no orçamento
+        let html = `<h2>Orçamento</h2>`;
+
+        if (dados.produtos && dados.produtos.length > 0) {
+          html += `<ul>`;
+          dados.produtos.forEach((produto) => {
+            html += `<li>${produto.nome} - Quantidade: ${
+              produto.quantidade
+            } - Preço: R$ ${produto.preco.toFixed(2)}</li>`;
+          });
+          html += `</ul>`;
+        } else {
+          html += `<p>Nenhum produto encontrado.</p>`;
+        }
+
+        // Outros dados do orçamento, por exemplo cliente:
+        if (dados.cliente) {
+          html += `<h3>Cliente:</h3>`;
+          html += `<p>Nome: ${dados.cliente.nome}</p>`;
+          html += `<p>Email: ${dados.cliente.email}</p>`;
+        }
+
+        document.getElementById("orcamentoArea").innerHTML = html;
+
+        // Aqui você pode também ativar botões, gerar PDF, etc.
+      } catch (error) {
+        console.error("Erro na decodificação ou parsing:", error);
+        document.getElementById("orcamentoArea").innerHTML =
+          "<p>Erro ao decodificar os dados do orçamento.</p>";
+      }
 
       function mostrarOrcamento() {
         let listaProdutos = "";
         let total = 0;
 
-        dados.produtos.forEach((p) => {
+        dados.produtos.forEach((p, i) => {
           const subtotal = p.quantidade * p.valor;
           total += subtotal;
           listaProdutos += `<li>${p.nome} - ${
@@ -83,11 +116,17 @@
       `;
       }
 
+      mostrarOrcamento();
+
       const canvas = document.getElementById("assinatura");
       const ctx = canvas.getContext("2d");
       let desenhando = false;
       let lastX = 0;
       let lastY = 0;
+
+      ctx.lineWidth = 2;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = "#000";
 
       function getPos(e) {
         const rect = canvas.getBoundingClientRect();
@@ -96,8 +135,6 @@
           y: (e.touches ? e.touches[0].clientY : e.clientY) - rect.top,
         };
       }
-
-      mostrarOrcamento();
 
       function startDesenho(e) {
         desenhando = true;
@@ -126,6 +163,7 @@
       canvas.addEventListener("mousemove", desenhar);
       canvas.addEventListener("mouseup", pararDesenho);
       canvas.addEventListener("mouseout", pararDesenho);
+
       canvas.addEventListener("touchstart", (e) => {
         e.preventDefault();
         startDesenho(e);
@@ -144,66 +182,26 @@
       }
 
       function salvarPdf() {
-        
-        // Verifica se o canvas tem assinatura
-        function isCanvasVazio(canvas) {
-          const blank = document.createElement("canvas");
-          blank.width = canvas.width;
-          blank.height = canvas.height;
-          return canvas.toDataURL() === blank.toDataURL();
-        }
-
-        if (isCanvasVazio(canvas)) {
-          alert(
-            "Assinatura não foi realizada. Por favor, assine antes de salvar o PDF."
-          );
-          return;
-        }
-
         const assinaturaImg = canvas.toDataURL("image/png");
-
-        console.log(
-          "Imagem da assinatura gerada:",
-          assinaturaImg.length,
-          "bytes"
-        );
-
         const orcamentoHtml =
           document.getElementById("orcamentoArea").innerHTML;
 
         const divPdf = document.createElement("div");
         divPdf.style.padding = "20px";
-        divPdf.style.boxShadow = "0 0 10px rgba(0,0,0,0.2)";
-        divPdf.style.padding = "30px";
-        divPdf.style.fontFamily = "Arial, sans-serif";
-        divPdf.style.maxWidth = "600px";
-        divPdf.style.margin = "0 auto";
-        divPdf.style.fontSize = "11px";
-        divPdf.style.lineHeight = "1.6";
-        divPdf.style.border = "1px dashed #ccc";
-        divPdf.style.borderRadius = "10px";
-        divPdf.style.backgroundColor = "#fff";
         divPdf.innerHTML = `
-      <h2 style="text-align:center; background:#69AC93; color:white; padding:10px; border-radius:6px;">
-      AUTORIZAÇÃO DE FATURAMENTO
-    </h2>
-    ${orcamentoHtml}
-    <h3 style="margin-top:30px;">Assinatura:</h3>
-    <img src="${assinaturaImg}" style="max-width: 400px; border: 1px solid #000;" />
-    <p>Data: ${new Date().toLocaleDateString("pt-BR")}</p>
-  `;
+        <h2>Orçamento Assinado</h2>
+        ${orcamentoHtml}
+        <h3>Assinatura:</h3>
+        <img src="${assinaturaImg}" style="max-width: 400px; border: 1px solid #000;" />
+        <p>Data: ${new Date().toLocaleDateString("pt-BR")}</p>
+      `;
 
         document.body.appendChild(divPdf);
 
         const options = {
           margin: 10,
           filename: "orcamento_assinado.pdf",
-          html2canvas: {
-            scale: 1.2,
-            logging: true,
-            dpi: 192,
-            letterRendering: true,
-          },
+          html2canvas: { scale: 2 },
           jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
         };
 

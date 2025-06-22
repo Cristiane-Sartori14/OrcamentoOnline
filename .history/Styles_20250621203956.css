@@ -5,7 +5,7 @@ body {
   background-color: #fff;
   color: #000;
   line-height: 1.6;
-  font-size: 14px;
+  font-size: 8px;
 }
 
 .main-title {
@@ -13,9 +13,7 @@ body {
   margin-bottom: 20px;
 }
 
-#divpdf {
- border: 1px solid #000; 
-}
+
 h1 {
   text-align: center;
   font-size: 30px;
@@ -27,10 +25,10 @@ h1 {
   border-radius: 8px;
 }
 
-p, li {
+p {
   text-align: initial;
   margin: 20px 0;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 section.main-title {
@@ -58,17 +56,11 @@ section.main-title {
   display:block;
 }
 
-#orcamentoArea img {
-  margin-top: 20px;
-  border: 1px solid #000;
-}
-
-h2, h3 {
-  font-size: 14px;
+h3 {
+  font-size: 18px;
   font-weight: bold;
   margin-top: 30px;
   text-align: center;
-  background: #69AC93;
 }
 
 #listaProdutos {
@@ -208,6 +200,8 @@ button {
   display: inline-block; /* garante o comportamento de botão/link */
 }
 
+
+
 a#botaoAssinatura {
   display: inline-block;
   margin-top: 10px;
@@ -217,5 +211,5 @@ a#botaoAssinatura {
 }
 
 #botaoAssinatura:hover {
-  background-color: #d1dae4;
+  background-color: #3f8bdd;
 }

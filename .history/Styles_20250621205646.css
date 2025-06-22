@@ -30,7 +30,7 @@ h1 {
 p, li {
   text-align: initial;
   margin: 20px 0;
-  font-size: 16px;
+  font-size: 10px;
 }
 
 section.main-title {
@@ -63,12 +63,11 @@ section.main-title {
   border: 1px solid #000;
 }
 
-h2, h3 {
-  font-size: 14px;
+h3 {
+  font-size: 18px;
   font-weight: bold;
   margin-top: 30px;
   text-align: center;
-  background: #69AC93;
 }
 
 #listaProdutos {
@@ -207,6 +206,8 @@ button {
   border-radius: 5px;
   display: inline-block; /* garante o comportamento de botão/link */
 }
+
+
 
 a#botaoAssinatura {
   display: inline-block;

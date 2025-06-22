@@ -97,7 +97,7 @@
         };
       }
 
-      mostrarOrcamento();
+       mostrarOrcamento();
 
       function startDesenho(e) {
         desenhando = true;
@@ -144,29 +144,9 @@
       }
 
       function salvarPdf() {
-        
-        // Verifica se o canvas tem assinatura
-        function isCanvasVazio(canvas) {
-          const blank = document.createElement("canvas");
-          blank.width = canvas.width;
-          blank.height = canvas.height;
-          return canvas.toDataURL() === blank.toDataURL();
-        }
-
-        if (isCanvasVazio(canvas)) {
-          alert(
-            "Assinatura não foi realizada. Por favor, assine antes de salvar o PDF."
-          );
-          return;
-        }
-
         const assinaturaImg = canvas.toDataURL("image/png");
 
-        console.log(
-          "Imagem da assinatura gerada:",
-          assinaturaImg.length,
-          "bytes"
-        );
+  console.log("Imagem da assinatura gerada:", assinaturaImg.length, "bytes");
 
         const orcamentoHtml =
           document.getElementById("orcamentoArea").innerHTML;
@@ -215,6 +195,7 @@
             document.body.removeChild(divPdf);
           });
       }
+      
     </script>
   </body>
 </html>

@@ -180,24 +180,6 @@ function salvarOrcamento() {
   html2pdf().set(options).from(area).save();
 }
 
-const assinaturaCanvas = document.getElementById("assinatura");
-if (assinaturaCanvas) {
-  const assinaturaImg = assinaturaCanvas.toDataURL("image/png");
-
-  const imgHtml = document.createElement("img");
-  imgHtml.src = assinaturaImg;
-  imgHtml.style.maxWidth = "400px";
-  imgHtml.style.border = "1px solid #000";
-  imgHtml.style.display = "block";
-  imgHtml.style.marginTop = "10px";
-
-  const assinaturaLabel = document.createElement("p");
-  assinaturaLabel.innerHTML = "<strong>Assinatura do responsável:</strong>";
-
-  area.appendChild(assinaturaLabel);
-  area.appendChild(imgHtml);
-}
-
 document.querySelector("#gerarPdf").addEventListener("click", () => {
   salvarOrcamento();
 });

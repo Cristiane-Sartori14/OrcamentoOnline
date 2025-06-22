@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Assinatura do Orçamento</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.3/html2pdf.bundle.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    
+    canvas {
+      border: 1px solid #000;
+      display: block;
+      margin: 10px 0;
+      width: 100%;
+      max-width: 400px;
+      height: 150px;
+    }
+    button {
+      padding: 10px 15px;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Revisar Orçamento</h2>
+  <div id="orcamentoArea">Carregando...</div>
+
+  <h3>Assinatura do responsável</h3>
+  <canvas id="assinatura"></canvas>
+  <button onclick="limparAssinatura()">Limpar Assinatura</button>
+  <button onclick="salvarPdf()">Salvar PDF com Assinatura</button>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const dataEncoded = params.get("data");
+
+    if (!dataEncoded) {
+      document.getElementById("orcamentoArea").innerHTML = "<p>Dados do orçamento não encontrados.</p>";
+      throw new Error("Dados do orçamento não fornecidos.");
+    }
+
+    const jsonStr = decodeURIComponent(atob(dataEncoded));
+    const dados = JSON.parse(jsonStr);
+
+    function mostrarOrcamento() {
+      let listaProdutos = "";
+      let total = 0;
+
+      dados.produtos.forEach((p, i) => {
+        const subtotal = p.quantidade * p.valor;
+        total += subtotal;
+        listaProdutos += `<li>${p.nome} - ${p.quantidade} un x R$ ${p.valor.toFixed(2)} = R$ ${subtotal.toFixed(2)}</li>`;
+      });
+
+      document.getElementById("orcamentoArea").innerHTML = `
+        <p><strong>Cliente:</strong> ${dados.cliente}</p>
+        <p><strong>CNPJ:</strong> ${dados.cnpj} &nbsp;&nbsp;&nbsp; <strong>IE:</strong> ${dados.ie}</p>
+        <p><strong>Endereço:</strong> ${dados.endereco}</p>
+        <p><strong>Cidade:</strong> ${dados.cidade} &nbsp;&nbsp;&nbsp; <strong>CEP:</strong> ${dados.cep}</p>
+        <p><strong>Contato:</strong> ${dados.contato} &nbsp;&nbsp;&nbsp; <strong>Telefone:</strong> ${dados.telefone}</p>
+        <h3>Produtos</h3>
+        <ul>${listaProdutos}</ul>
+        <p><strong>Total:</strong> R$ ${total.toFixed(2)}</p>
+        <h3>Forma de Pagamento</h3>
+        <p>Entrada: R$ ${dados.entrada}</p>
+        <p>Parcelamento: ${dados.parcelamento}</p>
+        <hr>
+        <p>Por favor, assine abaixo para autorizar o faturamento:</p>
+      `;
+    }
+
+    mostrarOrcamento();
+
+    const canvas = document.getElementById("assinatura");
+    const ctx = canvas.getContext("2d");
+    let desenhando = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    ctx.lineWidth = 2;
+    ctx.lineCap = "round";
+    ctx.strokeStyle = "#000";
+
+    function getPos(e) {
+      const rect = canvas.getBoundingClientRect();
+      return {
+        x: (e.touches ? e.touches[0].clientX : e.clientX) - rect.left,
+        y: (e.touches ? e.touches[0].clientY : e.clientY) - rect.top
+      };
+    }
+
+    function startDesenho(e) {
+      desenhando = true;
+      const pos = getPos(e);
+      lastX = pos.x;
+      lastY = pos.y;
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+    }
+
+    function desenhar(e) {
+      if (!desenhando) return;
+      const pos = getPos(e);
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+      lastX = pos.x;
+      lastY = pos.y;
+    }
+
+    function pararDesenho() {
+      desenhando = false;
+      ctx.closePath();
+    }
+
+    canvas.addEventListener("mousedown", startDesenho);
+    canvas.addEventListener("mousemove", desenhar);
+    canvas.addEventListener("mouseup", pararDesenho);
+    canvas.addEventListener("mouseout", pararDesenho);
+
+    canvas.addEventListener("touchstart", (e) => { e.preventDefault(); startDesenho(e); });
+    canvas.addEventListener("touchmove", (e) => { e.preventDefault(); desenhar(e); });
+    canvas.addEventListener("touchend", (e) => { e.preventDefault(); pararDesenho(); });
+
+    function limparAssinatura() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function salvarPdf() {
+      const assinaturaImg = canvas.toDataURL("image/png");
+      const orcamentoHtml = document.getElementById("orcamentoArea").innerHTML;
+
+      const divPdf = document.createElement("div");
+      divPdf.style.padding = "20px";
+      divPdf.innerHTML = `
+        <h2>Orçamento Assinado</h2>
+        ${orcamentoHtml}
+        <h3>Assinatura:</h3>
+        <img src="${assinaturaImg}" style="max-width: 400px; border: 1px solid #000;" />
+        <p>Data: ${new Date().toLocaleDateString("pt-BR")}</p>
+      `;
+
+      document.body.appendChild(divPdf);
+
+      const options = {
+        margin: 10,
+        filename: "orcamento_assinado.pdf",
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
+      };
+
+      html2pdf().set(options).from(divPdf).save().then(() => {
+        document.body.removeChild(divPdf);
+      });
+      
+    }
+  </script>
+  <script src="Script.js"></script>
+</body>
+</html>

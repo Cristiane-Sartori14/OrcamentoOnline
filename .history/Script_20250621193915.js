@@ -165,11 +165,10 @@ function salvarOrcamento() {
     _______________________________________________<br>
  <strong>Assinatura do responsável:</strong><br>`;
 
-  const area = document.getElementById("orcamentoArea");
+    const area = document.getElementById("orcamentoArea");
   area.innerHTML = texto;
-  area.style.display = "block";
+  area.style.display = "block"; // <-- mostra o conteúdo antes de gerar
 
-  // gera PDF
   const options = {
     margin: 10,
     filename: "orcamento.pdf",
@@ -177,25 +176,9 @@ function salvarOrcamento() {
     jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
   };
 
-  html2pdf().set(options).from(area).save();
-}
-
-const assinaturaCanvas = document.getElementById("assinatura");
-if (assinaturaCanvas) {
-  const assinaturaImg = assinaturaCanvas.toDataURL("image/png");
-
-  const imgHtml = document.createElement("img");
-  imgHtml.src = assinaturaImg;
-  imgHtml.style.maxWidth = "400px";
-  imgHtml.style.border = "1px solid #000";
-  imgHtml.style.display = "block";
-  imgHtml.style.marginTop = "10px";
-
-  const assinaturaLabel = document.createElement("p");
-  assinaturaLabel.innerHTML = "<strong>Assinatura do responsável:</strong>";
-
-  area.appendChild(assinaturaLabel);
-  area.appendChild(imgHtml);
+  html2pdf().set(options).from(area).save().then(() => {
+    area.style.display = "none"; // <-- esconde novamente depois de gerar
+  });
 }
 
 document.querySelector("#gerarPdf").addEventListener("click", () => {
