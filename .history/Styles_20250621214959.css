@@ -1,7 +1,6 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
-  margin: 0;
-  padding: 0;
+  margin: 40px auto;
   max-width: 800px;
   background-color: #fff;
   color: #000;
@@ -14,11 +13,9 @@ body {
   margin-bottom: 20px;
 }
 
-.divAssinatura {
-  overflow: visible;
-  max-height: none;
+#divpdf {
+ border: 1px solid #000; 
 }
-
 h1 {
   text-align: center;
   font-size: 30px;
@@ -30,8 +27,7 @@ h1 {
   border-radius: 8px;
 }
 
-p,
-li {
+p, li {
   text-align: initial;
   margin: 20px 0;
   font-size: 16px;
@@ -39,34 +35,41 @@ li {
 
 section.main-title {
   margin-bottom: 20px;
-  background-color: #69ac93;
+  background-color: #69AC93;
   color: white;
   padding: 15px;
   border-radius: 8px;
   text-align: center;
 }
 
-#orcamentoArea,
-#orcamentoArea * {
+#orcamentoArea, #orcamentoArea * {
   page-break-inside: avoid;
+
 }
 
 #orcamentoArea {
-  margin-top: 0;
-  padding-top: 0;
-  display: block;
-  align-items: center; 
-  justify-content: flex-start; 
-  min-height: 100vh;
+  text-align: initial;
+  padding: 10px;
+  background: #fff;
+  color: #000;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  font-size: 15px;
+  line-height: 1.8;
+  display:block;
 }
 
-h2,
-h3 {
+#orcamentoArea img {
+  margin-top: 20px;
+  border: 1px solid #000;
+}
+
+h2, h3 {
   font-size: 14px;
   font-weight: bold;
   margin-top: 30px;
   text-align: center;
-  background: #69ac93;
+  background: #69AC93;
 }
 
 #listaProdutos {
@@ -106,10 +109,17 @@ input {
 }
 
 .forma-pagamento {
-  background-color: #f1f1f1;
+   background-color: #f1f1f1;
   padding: 10px;
   margin-bottom: 15px;
   border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+#forma-pagamento {
+  margin: 20px 0;
+  padding: 15px;
+ border-radius: 8px;
   border: 1px solid #ccc;
 }
 
@@ -129,13 +139,20 @@ input {
   background-color: white;
 }
 
+#produtos {
+  margin: 20px 0;
+  padding: 15px;
+  background-color: #e9f5f0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
 ul {
   list-style-type: none;
   padding-left: 0;
 }
 
-img,
-canvas {
+img, canvas {
   max-width: 100%;
   height: auto;
   display: block;
@@ -145,7 +162,7 @@ canvas {
 button {
   display: inline-block;
   padding: 10px 15px;
-  background-color: #69ac93;
+  background-color: #69AC93;
   color: white;
   border: none;
   border-radius: 5px;
@@ -164,8 +181,7 @@ button {
     background: #fff;
   }
 
-  button,
-  #modoEdicao {
+  button, #modoEdicao {
     display: none; /* oculta botões e campos de edição na impressão */
   }
 
@@ -177,13 +193,6 @@ button {
     display: block;
     margin-top: 10px;
   }
-}
-
-#assinaturaImg {
-  display: block;
-  margin: 10px auto;
-  max-width: 100px;
- height: auto;
 }
 
 #linkAssinaturaContainer {

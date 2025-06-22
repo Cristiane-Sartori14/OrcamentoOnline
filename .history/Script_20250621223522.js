@@ -45,7 +45,7 @@ window.addEventListener("load", () => {
   });
 
   // Inicializa assinatura no canvas
-  const canvas = document.getElementById("assinatura");
+const canvas = document.getElementById("assinatura");
   if (canvas) {
     const ctx = canvas.getContext("2d");
     let desenhando = false;
@@ -173,7 +173,6 @@ function salvarOrcamento() {
   const options = {
     margin: 0,
     filename: "orcamento.pdf",
-    image: { type: "jpeg", quality: 0.98 },
     html2canvas: { scale: 2 },
     jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
   };
@@ -230,17 +229,9 @@ function gerarLinkAssinatura() {
   });
 
   const dados = {
-    cliente,
-    cnpj,
-    ie,
-    endereco,
-    cidade,
-    cep,
-    contato,
-    telefone,
-    entrada,
-    parcelamento,
-    produtos: listaProdutos,
+    cliente, cnpj, ie, endereco, cidade, cep,
+    contato, telefone, entrada, parcelamento,
+    produtos: listaProdutos
   };
 
   const encoded = btoa(encodeURIComponent(JSON.stringify(dados)));
@@ -249,3 +240,5 @@ function gerarLinkAssinatura() {
   document.getElementById("botaoAssinatura").href = urlAssinatura;
   document.getElementById("linkAssinaturaContainer").style.display = "block";
 }
+
+

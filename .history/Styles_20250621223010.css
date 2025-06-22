@@ -14,11 +14,6 @@ body {
   margin-bottom: 20px;
 }
 
-.divAssinatura {
-  overflow: visible;
-  max-height: none;
-}
-
 h1 {
   text-align: center;
   font-size: 30px;
@@ -113,6 +108,13 @@ input {
   border: 1px solid #ccc;
 }
 
+#forma-pagamento {
+  margin: 20px 0;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
 .produto {
   background-color: #f1f1f1;
   padding: 15px;
@@ -182,8 +184,7 @@ button {
 #assinaturaImg {
   display: block;
   margin: 10px auto;
-  max-width: 100px;
- height: auto;
+  max-width: 100px; /* Ajuste o tamanho máximo */
 }
 
 #linkAssinaturaContainer {

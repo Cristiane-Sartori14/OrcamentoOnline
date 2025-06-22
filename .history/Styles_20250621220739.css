@@ -1,7 +1,6 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
-  margin: 0;
-  padding: 0;
+  margin: 40px auto;
   max-width: 800px;
   background-color: #fff;
   color: #000;
@@ -14,11 +13,9 @@ body {
   margin-bottom: 20px;
 }
 
-.divAssinatura {
-  overflow: visible;
-  max-height: none;
+#divpdf {
+  border: 1px solid #000;
 }
-
 h1 {
   text-align: center;
   font-size: 30px;
@@ -55,9 +52,15 @@ section.main-title {
   margin-top: 0;
   padding-top: 0;
   display: block;
+  flex-direction: column;
   align-items: center; 
   justify-content: flex-start; 
   min-height: 100vh;
+}
+
+#orcamentoArea img {
+  margin-top: 20px;
+  border: 1px solid #000;
 }
 
 h2,
@@ -113,6 +116,13 @@ input {
   border: 1px solid #ccc;
 }
 
+#forma-pagamento {
+  margin: 20px 0;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
 .produto {
   background-color: #f1f1f1;
   padding: 15px;
@@ -127,6 +137,14 @@ input {
 
 .produto input {
   background-color: white;
+}
+
+#produtos {
+  margin: 20px 0;
+  padding: 15px;
+  background-color: #e9f5f0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
 }
 
 ul {
@@ -181,9 +199,8 @@ button {
 
 #assinaturaImg {
   display: block;
-  margin: 10px auto;
-  max-width: 100px;
- height: auto;
+  margin: 0 auto;
+  max-width: 300px; /* Ajuste o tamanho máximo */
 }
 
 #linkAssinaturaContainer {
