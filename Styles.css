@@ -164,6 +164,7 @@ button {
     background: #fff;
   }
 
+
   button,
   #modoEdicao {
     display: none; /* oculta botões e campos de edição na impressão */
@@ -174,40 +175,41 @@ button {
   }
 
   canvas {
+    border: 1px solid #000;
     display: block;
-    margin-top: 10px;
+    margin: 10px 0;
+    width: 100%;
+    max-width: 400px;
+    height: 150px;
+  }
+
+  #assinaturaImg {
+    display: block;
+    margin: 10px auto;
+    max-width: 100px;
+    height: auto;
+  }
+
+  #linkAssinaturaContainer {
+    margin-top: 20px;
+    display: none;
   }
 }
 
-#assinaturaImg {
-  display: block;
-  margin: 10px auto;
-  max-width: 100px;
- height: auto;
-}
-
-#linkAssinaturaContainer {
-  margin-top: 20px;
-  display: none; /* mantem oculto inicialmente */
-}
-
-#botaoAssinatura {
+  #botaoAssinatura {
+  display: inline-block;
   padding: 10px 15px;
-  background-color: #007bff;
+  background-color: #69ac93;
   color: white;
+  font-weight: bold;
   text-decoration: none;
   border-radius: 5px;
-  display: inline-block; /* garante o comportamento de botão/link */
-}
-
-a#botaoAssinatura {
-  display: inline-block;
   margin-top: 10px;
-  font-weight: bold;
-  color: #0052cc;
-  text-decoration: underline;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
+ 
 
-#botaoAssinatura:hover {
-  background-color: #d1dae4;
+ #botaoAssinatura:hover {
+  background-color: #053033;
 }
