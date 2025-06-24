@@ -12,6 +12,8 @@ function adicionarProduto() {
     <input type="number" step="0.01" class="valor" oninput="calcularTotal()" />
   `;
   document.getElementById("produtos").appendChild(div);
+
+  calcularTotal();
 }
 
 function calcularTotal() {
@@ -27,7 +29,9 @@ function calcularTotal() {
     if (nome && qtd > 0 && valor > 0) {
       const subtotal = qtd * valor;
       total += subtotal;
-      lista += `${i + 1}. ${nome} - ${qtd} un x R$ ${valor.toFixed(2)} = R$ ${subtotal.toFixed(2)}<br>`;
+      lista += `${i + 1}. ${nome} - ${qtd} un x R$ ${valor.toFixed(
+        2
+      )} = R$ ${subtotal.toFixed(2)}<br>`;
     }
   });
 
@@ -127,7 +131,9 @@ function salvarOrcamento() {
 
     if (nome && qtd > 0 && valor > 0) {
       const subtotal = qtd * valor;
-      listaProdutos += `${i + 1}. ${nome} - ${qtd} un x R$ ${valor.toFixed(2)} = R$ ${subtotal.toFixed(2)}<br>`;
+      listaProdutos += `${i + 1}. ${nome} - ${qtd} un x R$ ${valor.toFixed(
+        2
+      )} = R$ ${subtotal.toFixed(2)}<br>`;
       total += subtotal;
     }
   });
@@ -145,8 +151,8 @@ function salvarOrcamento() {
     <strong>R$ ${total.toFixed(2)}</strong> referente à compra de:</p>
     <div>${listaProdutos}</div>
 
-    <h3>Forma de Pagamento</h3>
-    ENTRADA DE <strong>R$ ${dados.entrada}</strong><br>
+   <h3>Forma de Pagamento</h3>
+    ENTRADA DE <strong>R$ ${entrada}</strong><br>
     PARCELAMENTO EM <strong>${parcelamento}</strong><br><br>
 
      
