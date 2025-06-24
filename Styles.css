@@ -1,204 +1,152 @@
-body {
-  zoom: 100%;
-  overflow-x: hidden;
-  font-family: Arial, Helvetica, sans-serif;
+/* Reset básico para remover margens e paddings padrões */
+* {
   margin: 0;
   padding: 0;
-  background-color: #fff;
-  color: #000;
+  box-sizing: border-box;
+}
+
+/* Fonte principal e cores */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f5f7fa;
+  color: #333;
   line-height: 1.6;
-  font-size: 14px;
-  width: 100%;
+  padding: 20px;
 }
 
-.main-title {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-h1 {
-  text-align: center;
-  font-size: 30px;
-  text-transform: uppercase;
-  font-weight: bold;
-  margin-bottom: 30px;
-  background-color: #ccc;
-  padding: 10px;
-  border-radius: 8px;
-}
-
-p,
-li {
-  text-align: initial;
-  margin: 20px 0;
-  font-size: 16px;
-}
-
-section.main-title {
-  margin-bottom: 20px;
-  background-color: #69ac93;
-  color: white;
-  padding: 15px;
-  border-radius: 8px;
-  text-align: center;
+/* Container principal */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 #tituloOrcamento {
-  text-align: center;
-  background-color: #69ac93;
-  color: white;
-  font-weight: bold;
-  padding: 10px;
-  border-radius: 5px;
+  background-color: #69ac93; 
+  color: white;            
+  padding: 15px 20px;   
+  font-size: 1.6rem;    
+  font-weight: bold;   
+  text-align: center; 
+  border-radius: 10px; 
+  margin-bottom: 20px;   
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  letter-spacing: 1px;    
+}
+
+/* Títulos */
+h1, h2, h3 {
+  color: #2c3e50;
   margin-bottom: 20px;
-  font-size: 16px;
+  font-weight: 700;
 }
 
-#orcamentoArea,
-#orcamentoArea * {
-  page-break-inside: avoid;
-}
-
-#orcamentoArea {
-  margin-top: 0;
-  padding-top: 0;
-  display: block;
-  align-items: center;
-  justify-content: flex-start;
-  min-height: 100vh;
-}
-
-h2 {
-  text-align: center;
-  background: #69ac93;
-  color: white;
-  padding: 10px;
-  border-radius: 6px;
-}
-
-h3 {
-  margin-top: 20px;
-}
-
-label {
-  font-weight: bold;
-  margin-bottom: 5px;
-  display: block;
-}
-
-input {
-  padding: 8px;
-  color: #000;
-  border: 1px solid #ccc;
+/* Inputs e selects */
+input[type="text"],
+input[type="number"],
+select,
+textarea {
   width: 100%;
-  font-size: 16px;
-  border-radius: 4px;
-  background-color: #fff;
-  box-sizing: border-box;
-  margin-bottom: 15px;
+  padding: 10px 14px;
+  margin-bottom: 18px;
+  border: 1.8px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
 }
 
-ul {
-  list-style-type: none;
-  padding-left: 0;
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+  border-color: #3498db;
+  outline: none;
 }
 
-canvas {
-  width: 400px;
-  height: 150px;
-  border: 1px solid #000;
+#assinatura {
+  border: 2px solid #3498db; /* borda azul, pode trocar a cor */
+  border-radius: 8px;         /* cantos arredondados, opcional */
+  background-color: #fff;     /* fundo branco para destacar */
 }
 
+/* Botões */
 button {
-  display: inline-block;
-  padding: 10px 15px;
-  background-color: #69ac93;
+  background-color: #3498db;
   color: white;
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  margin: 5px 0;
-  margin-right: 10px;
-}
-
-@media print {
-  html, body {
-    width: 21cm;
-    height: auto;
-    margin: 0;
-    padding: 0;
-    font-size: 12px;
-    background: #fff;
-<<<<<<< HEAD
-  }
-
-
-  button,
-  #modoEdicao {
-    display: none; /* oculta botões e campos de edição na impressão */
-  }
-
-  #orcamentoTexto {
-    page-break-inside: avoid;
-=======
-    color: #000;
-    box-sizing: border-box;
->>>>>>> e6428e9 (aterações de melhoria em JS, CSS e HTML)
-  }
-
-  canvas {
-    border: 1px solid #000;
-    display: block;
-<<<<<<< HEAD
-    margin: 10px 0;
-=======
-    margin: 20px auto 0 auto;
->>>>>>> e6428e9 (aterações de melhoria em JS, CSS e HTML)
-    width: 100%;
-    max-width: 400px;
-    height: 150px;
-  }
-
-<<<<<<< HEAD
-  #assinaturaImg {
-    display: block;
-    margin: 10px auto;
-    max-width: 100px;
-    height: auto;
-  }
-
-  #linkAssinaturaContainer {
-    margin-top: 20px;
-    display: none;
-=======
-  #orcamentoArea {
-     margin: 1.5cm;
-    padding: 0;
-    width: 100%;
-    page-break-inside: avoid;
->>>>>>> e6428e9 (aterações de melhoria em JS, CSS e HTML)
-  }
-}
-
-  #botaoAssinatura {
-  display: inline-block;
-  padding: 10px 15px;
-  background-color: #69ac93;
-  color: white;
-  font-weight: bold;
-  text-decoration: none;
-  border-radius: 5px;
-  margin-top: 10px;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
 }
- 
 
- #botaoAssinatura:hover {
-  background-color: #053033;
-<<<<<<< HEAD
+button:hover {
+  background-color: #2980b9;
 }
-=======
+
+#botaoAssinatura {
+  display: inline-block;
+  background-color: #2ecc71;  /* Verde elegante */
+  color: white;
+  padding: 12px 25px;
+  text-decoration: none;
+  font-size: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+  transition: background-color 0.3s ease;
+  margin-top: 15px;
 }
->>>>>>> e6428e9 (aterações de melhoria em JS, CSS e HTML)
+
+#botaoAssinatura:hover {
+  background-color: #27ae60;
+}
+
+/* Tabela de orçamentos */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 25px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+th, td {
+  padding: 14px 20px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #3498db;
+  color: white;
+  font-weight: 600;
+}
+
+/* Rodapé da tabela */
+tfoot tr td {
+  font-weight: 700;
+  font-size: 1.1rem;
+  background: #f9f9f9;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .container {
+    padding: 15px 20px;
+  }
+
+  th, td {
+    padding: 10px 12px;
+  }
+
+  button {
+    width: 100%;
+    padding: 14px;
+  }
+}

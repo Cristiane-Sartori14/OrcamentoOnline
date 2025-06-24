@@ -157,31 +157,29 @@
         divPdf.innerHTML = `
       <h2>AUTORIZAÇÃO DE FATURAMENTO</h2>
 
-<<<<<<< HEAD
       <p>Declaro, para os devidos fins, que autorizo a empresa <b>BELLENZIER PNEUS LTDA</b> 
          a faturar os produtos e/ou serviços abaixo descritos, conforme os valores e condições estabelecidos.
          Estou ciente de que este documento representa meu aceite formal.</p>
-=======
-    <P>Declaro, para os devidos fins, que autorizo a empresa <b>BELLENZIER PNEUS LTDA</b> 
-      a faturar os produtos e/ou serviços abaixo descritos, 
-      conforme os valores e condições estabelecidos. Estou ciente de que este documento representa meu aceite
-      formal.</p>
->>>>>>> e6428e9 (aterações de melhoria em JS, CSS e HTML)
+
     
     ${orcamentoHtml}
-    <h3 style="margin-top:30px;">Assinatura:</h3>
-    <img src="${assinaturaImg}" style="max-width: 400px; border: 1px solid #000;" />
-    <p>Data: ${new Date().toLocaleDateString("pt-BR")}</p>
-  `;
+     <h3 style="margin-top:30px;">Assinatura:</h3>
+  <img src="${assinaturaImg}" style="max-width: 400px; border: 1px solid #000;" />
+  
+  <div style="height: 40px;"></div> <!-- espaço antes da data -->
+  <p style="margin-top: 10px;">Data: ${new Date().toLocaleDateString(
+    "pt-BR"
+  )}</p>
+`;
 
         document.body.appendChild(divPdf);
 
         // Gera o PDF
-         const options = {
+        const options = {
           margin: 10,
           filename: "orcamento_assinado.pdf",
           html2canvas: {
-            scale: 1.2,
+            scale: 1.0,
             logging: true,
             dpi: 192,
             letterRendering: true,
