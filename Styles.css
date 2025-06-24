@@ -1,22 +1,19 @@
 body {
+  zoom: 100%;
+  overflow-x: hidden;
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
-  max-width: 800px;
   background-color: #fff;
   color: #000;
   line-height: 1.6;
   font-size: 14px;
+  width: 100%;
 }
 
 .main-title {
   text-align: center;
   margin-bottom: 20px;
-}
-
-.divAssinatura {
-  overflow: visible;
-  max-height: none;
 }
 
 h1 {
@@ -46,6 +43,17 @@ section.main-title {
   text-align: center;
 }
 
+#tituloOrcamento {
+  text-align: center;
+  background-color: #69ac93;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
 #orcamentoArea,
 #orcamentoArea * {
   page-break-inside: avoid;
@@ -55,28 +63,21 @@ section.main-title {
   margin-top: 0;
   padding-top: 0;
   display: block;
-  align-items: center; 
-  justify-content: flex-start; 
+  align-items: center;
+  justify-content: flex-start;
   min-height: 100vh;
 }
 
-h2,
-h3 {
-  font-size: 14px;
-  font-weight: bold;
-  margin-top: 30px;
+h2 {
   text-align: center;
   background: #69ac93;
+  color: white;
+  padding: 10px;
+  border-radius: 6px;
 }
 
-#listaProdutos {
-  font-size: 16px;
-  text-transform: uppercase;
-  font-weight: bold;
-  margin-bottom: 20px;
-  background-color: #cccb;
-  padding: 10px;
-  border-radius: 5px;
+h3 {
+  margin-top: 20px;
 }
 
 label {
@@ -97,49 +98,15 @@ input {
   margin-bottom: 15px;
 }
 
-.forma-pagamento input {
-  background-color: white;
-}
-
-.forma-pagamento label {
-  margin-top: 10px;
-}
-
-.forma-pagamento {
-  background-color: #f1f1f1;
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
-.produto {
-  background-color: #f1f1f1;
-  padding: 15px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
-.produto label {
-  margin-top: 10px;
-}
-
-.produto input {
-  background-color: white;
-}
-
 ul {
   list-style-type: none;
   padding-left: 0;
 }
 
-img,
 canvas {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  page-break-inside: avoid;
+  width: 400px;
+  height: 150px;
+  border: 1px solid #000;
 }
 
 button {
@@ -152,16 +119,18 @@ button {
   cursor: pointer;
   font-weight: bold;
   margin: 5px 0;
+  margin-right: 10px;
 }
 
 @media print {
-  body {
+  html, body {
     width: 21cm;
-    height: 29.7cm;
-    margin: 1.5cm;
+    height: auto;
+    margin: 0;
+    padding: 0;
     font-size: 12px;
-    color: #000;
     background: #fff;
+<<<<<<< HEAD
   }
 
 
@@ -172,17 +141,26 @@ button {
 
   #orcamentoTexto {
     page-break-inside: avoid;
+=======
+    color: #000;
+    box-sizing: border-box;
+>>>>>>> e6428e9 (aterações de melhoria em JS, CSS e HTML)
   }
 
   canvas {
     border: 1px solid #000;
     display: block;
+<<<<<<< HEAD
     margin: 10px 0;
+=======
+    margin: 20px auto 0 auto;
+>>>>>>> e6428e9 (aterações de melhoria em JS, CSS e HTML)
     width: 100%;
     max-width: 400px;
     height: 150px;
   }
 
+<<<<<<< HEAD
   #assinaturaImg {
     display: block;
     margin: 10px auto;
@@ -193,6 +171,13 @@ button {
   #linkAssinaturaContainer {
     margin-top: 20px;
     display: none;
+=======
+  #orcamentoArea {
+     margin: 1.5cm;
+    padding: 0;
+    width: 100%;
+    page-break-inside: avoid;
+>>>>>>> e6428e9 (aterações de melhoria em JS, CSS e HTML)
   }
 }
 
@@ -212,4 +197,8 @@ button {
 
  #botaoAssinatura:hover {
   background-color: #053033;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> e6428e9 (aterações de melhoria em JS, CSS e HTML)

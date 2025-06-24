@@ -4,26 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Assinatura do Orçamento</title>
+    <link rel="stylesheet" href="Styles.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.3/html2pdf.bundle.min.js"></script>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        padding: 5px;
-        position: relative;
-      }
-      canvas {
-        border: 1px solid #000;
-        display: block;
-        margin: 10px 0;
-        width: 100%;
-        max-width: 400px;
-        height: 150px;
-      }
-      button {
-        padding: 10px 15px;
-        margin-right: 10px;
-      }
-    </style>
   </head>
   <body>
     <h2>Autorização de faturamento</h2>
@@ -172,24 +154,19 @@
 
         const divPdf = document.createElement("div");
         divPdf.style.padding = "20px";
-        divPdf.style.boxShadow = "0 0 10px rgba(0,0,0,0.2)";
-        divPdf.style.padding = "30px";
-        divPdf.style.fontFamily = "Arial, sans-serif";
-        divPdf.style.maxWidth = "600px";
-        divPdf.style.margin = "0 auto";
-        divPdf.style.fontSize = "11px";
-        divPdf.style.lineHeight = "1.6";
-        divPdf.style.border = "1px dashed #ccc";
-        divPdf.style.borderRadius = "10px";
-        divPdf.style.backgroundColor = "#fff";
         divPdf.innerHTML = `
-      <h2 style="text-align:center; background:#69AC93; color:white; padding:10px; border-radius:6px;">
-      AUTORIZAÇÃO DE FATURAMENTO
-    </h2>
+      <h2>AUTORIZAÇÃO DE FATURAMENTO</h2>
 
+<<<<<<< HEAD
       <p>Declaro, para os devidos fins, que autorizo a empresa <b>BELLENZIER PNEUS LTDA</b> 
          a faturar os produtos e/ou serviços abaixo descritos, conforme os valores e condições estabelecidos.
          Estou ciente de que este documento representa meu aceite formal.</p>
+=======
+    <P>Declaro, para os devidos fins, que autorizo a empresa <b>BELLENZIER PNEUS LTDA</b> 
+      a faturar os produtos e/ou serviços abaixo descritos, 
+      conforme os valores e condições estabelecidos. Estou ciente de que este documento representa meu aceite
+      formal.</p>
+>>>>>>> e6428e9 (aterações de melhoria em JS, CSS e HTML)
     
     ${orcamentoHtml}
     <h3 style="margin-top:30px;">Assinatura:</h3>
@@ -199,7 +176,8 @@
 
         document.body.appendChild(divPdf);
 
-        const options = {
+        // Gera o PDF
+         const options = {
           margin: 10,
           filename: "orcamento_assinado.pdf",
           html2canvas: {

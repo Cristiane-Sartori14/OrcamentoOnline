@@ -27,9 +27,7 @@ function calcularTotal() {
     if (nome && qtd > 0 && valor > 0) {
       const subtotal = qtd * valor;
       total += subtotal;
-      lista += `${i + 1}. ${nome} - ${qtd} un x R$ ${valor.toFixed(
-        2
-      )} = R$ ${subtotal.toFixed(2)}<br>`;
+      lista += `${i + 1}. ${nome} - ${qtd} un x R$ ${valor.toFixed(2)} = R$ ${subtotal.toFixed(2)}<br>`;
     }
   });
 
@@ -38,13 +36,8 @@ function calcularTotal() {
 }
 
 window.addEventListener("load", () => {
-  // Inicializa eventos de produto
-  const campos = document.querySelectorAll(".produto input");
-  campos.forEach((input) => {
-    input.addEventListener("input", calcularTotal);
-  });
+  calcularTotal();
 
-  // Inicializa assinatura no canvas
   const canvas = document.getElementById("assinatura");
   if (canvas) {
     const ctx = canvas.getContext("2d");
@@ -80,7 +73,7 @@ window.addEventListener("load", () => {
       ctx.closePath();
     });
 
-    // Toque mobile
+    // Touch (mobile)
     canvas.addEventListener("touchstart", function (e) {
       e.preventDefault();
       desenhando = true;
@@ -109,9 +102,6 @@ window.addEventListener("load", () => {
       ctx.closePath();
     });
   }
-
-  // Chama total inicial
-  calcularTotal();
 });
 
 function salvarOrcamento() {
@@ -137,12 +127,17 @@ function salvarOrcamento() {
 
     if (nome && qtd > 0 && valor > 0) {
       const subtotal = qtd * valor;
-      listaProdutos += `${i + 1}. ${nome} - ${qtd} un x R$ ${valor.toFixed(
-        2
-      )} = R$ ${subtotal.toFixed(2)}<br>`;
+      listaProdutos += `${i + 1}. ${nome} - ${qtd} un x R$ ${valor.toFixed(2)} = R$ ${subtotal.toFixed(2)}<br>`;
       total += subtotal;
     }
   });
+
+  let assinaturaHtml = "<strong>Assinatura do responsável:</strong><br>";
+  const assinaturaCanvas = document.getElementById("assinatura");
+  if (assinaturaCanvas) {
+    const assinaturaBase64 = assinaturaCanvas.toDataURL("image/png");
+    assinaturaHtml += `<img src="${assinaturaBase64}" style="max-width: 400px; height: 150px; border: 1px solid #000; display: block; margin-top: 10px;" />`;
+  }
 
   const texto = `
     <h2>AUTORIZAÇÃO DE FATURAMENTO</h2>
@@ -151,9 +146,10 @@ function salvarOrcamento() {
     <div>${listaProdutos}</div>
 
     <h3>Forma de Pagamento</h3>
-    ENTRADA DE <strong>R$ ${entrada}</strong><br>
-    SALDO BOLETOS EM <strong>${parcelamento}</strong><br><br>
+    ENTRADA DE <strong>R$ ${dados.entrada}</strong><br>
+    PARCELAMENTO EM <strong>${parcelamento}</strong><br><br>
 
+     
     <h3>Dados para Faturar</h3>
     Razão Social: ${cliente}<br>
     CNPJ: ${cnpj} &nbsp;&nbsp;&nbsp; IE: ${ie}<br>
@@ -163,47 +159,39 @@ function salvarOrcamento() {
 
     Porto Alegre, ${new Date().toLocaleDateString("pt-BR")}<br><br>
     _______________________________________________<br>
- <strong>Assinatura do responsável:</strong><br>`;
+    ${assinaturaHtml}
+  `;
 
-  const area = document.getElementById("orcamentoArea");
-  area.innerHTML = texto;
-  area.style.display = "block";
+  const divPdf = document.createElement("div");
+  divPdf.innerHTML = texto;
+  divPdf.style.padding = "20px";
 
-  // gera PDF
+  document.body.appendChild(divPdf);
+
   const options = {
     margin: 0,
     filename: "orcamento.pdf",
     image: { type: "jpeg", quality: 0.98 },
-    html2canvas: { scale: 2 },
-    jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+    html2canvas: {
+      scale: window.innerWidth < 768 ? 3 : 2,
+      useCORS: true,
+    },
+    jsPDF: { unit: "cm", format: "a4", orientation: "portrait" },
   };
 
-  html2pdf().set(options).from(area).save();
-}
-
-const assinaturaCanvas = document.getElementById("assinatura");
-if (assinaturaCanvas) {
-  const assinaturaImg = assinaturaCanvas.toDataURL("image/png");
-
-  const imgHtml = document.createElement("img");
-  imgHtml.src = assinaturaImg;
-  imgHtml.style.maxWidth = "400px";
-  imgHtml.style.border = "1px solid #000";
-  imgHtml.style.display = "block";
-  imgHtml.style.marginTop = "10px";
-
-  const assinaturaLabel = document.createElement("p");
-  assinaturaLabel.innerHTML = "<strong>Assinatura do responsável:</strong>";
-
-  area.appendChild(assinaturaLabel);
-  area.appendChild(imgHtml);
+  html2pdf()
+    .set(options)
+    .from(divPdf)
+    .save()
+    .then(() => {
+      document.body.removeChild(divPdf);
+    });
 }
 
 document.querySelector("#gerarPdf").addEventListener("click", () => {
   salvarOrcamento();
 });
 
-// Função para gerar imagem da assinatura (opcional)
 function gerarLinkAssinatura() {
   const cliente = document.getElementById("cliente").value;
   const cnpj = document.getElementById("cnpj").value;
