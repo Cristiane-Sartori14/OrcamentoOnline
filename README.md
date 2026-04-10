@@ -1,4 +1,4 @@
-# 🧾 Orçamento Online
+# 🧾 AUTORIZAÇÃO DE FATURAMENTO
 
 > 🌐 Demonstração: https://cristiane-sartori14.github.io/OrcamentoOnline/formulario.html  
 > 💻 Aplicação web para simulação de autorização de faturamento com coleta de assinatura digital
