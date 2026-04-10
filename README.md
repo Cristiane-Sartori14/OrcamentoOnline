@@ -32,8 +32,3 @@ Tem implementação da aplicação, incluindo a lógica com JavaScript, manipula
 - HTML  
 - CSS  
 - JavaScript  
-
----
-
-## ▶️ Acesso
-https://cristiane-sartori14.github.io/OrcamentoOnline/formulario.html
